@@ -63,7 +63,7 @@
             .rapor-page {
                 width: 215mm;
                 min-height: 325mm;
-                padding: 10mm 12mm;
+                padding: 8mm 10mm;
                 box-sizing: border-box;
                 page-break-after: always;
                 break-after: page;
@@ -192,6 +192,29 @@
                                 <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200 uppercase">Kelas 7-9 (A-D)</span>
                             </div>
                             <p class="text-[11px] text-slate-500 hidden sm:block">Sistem Evaluasi Al-Islam, Kemuhammadiyahan & Bahasa Arab</p>
+                        </div>
+                    </div>
+
+                    <!-- Global Semester & Academic Year Selector -->
+                    <div class="flex items-center space-x-3 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+                        <div class="flex items-center space-x-2 text-xs font-bold text-emerald-900">
+                            <i class="fas fa-calendar-alt text-emerald-600"></i>
+                            <span class="hidden sm:inline">Periode:</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <select id="global-tahun-ajaran" onchange="onGlobalPeriodChange()" class="text-xs font-extrabold bg-white border border-emerald-300 rounded-lg px-2 py-1 text-emerald-900 focus:ring-2 focus:ring-ismuba-500 outline-none cursor-pointer">
+                                <option value="2025/2026">2025/2026</option>
+                                <option value="2026/2027" selected>2026/2027</option>
+                                <option value="2027/2028">2027/2028</option>
+                                <option value="2028/2029">2028/2029</option>
+                                <option value="2029/2030">2029/2030</option>
+                                <option value="2030/2031">2030/2031</option>
+                            </select>
+
+                            <select id="global-semester" onchange="onGlobalPeriodChange()" class="text-xs font-extrabold bg-white border border-emerald-300 rounded-lg px-2 py-1 text-emerald-900 focus:ring-2 focus:ring-ismuba-500 outline-none cursor-pointer">
+                                <option value="Gasal" selected>Semester Gasal</option>
+                                <option value="Genap">Semester Genap</option>
+                            </select>
                         </div>
                     </div>
 
@@ -404,7 +427,7 @@
                                 <i class="fas fa-pen-to-square text-ismuba-600"></i>
                                 <span>Input Nilai Akademik Mapel ISMUBA</span>
                             </h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Pilih Kelas dan Mata Pelajaran untuk mengisi nilai & mengolah deskripsi CP</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Input nilai sesuai periode <span class="current-period-text font-bold text-emerald-700">T.P 2026/2027 - Semester Gasal</span></p>
                         </div>
                         
                         <!-- Filters & Quick Actions -->
@@ -437,7 +460,7 @@
 
                             <button onclick="saveAllGrades()" class="px-4 py-2 bg-ismuba-600 hover:bg-ismuba-700 text-white rounded-xl text-xs font-semibold transition shadow-md flex items-center space-x-1.5">
                                 <i class="fas fa-floppy-disk"></i>
-                                <span>Simpan Semua</span>
+                                <span>Simpan Periode Ini</span>
                             </button>
                         </div>
                     </div>
@@ -489,7 +512,7 @@
                                 <i class="fas fa-hands-praying text-emerald-600"></i>
                                 <span>Penilaian Hafalan Al-Qur'an/Hadits & Praktik Ibadah</span>
                             </h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Catat progress hafalan target juz/surah dan kompetensi ibadah harian</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Pencatatan perkembangan per periode <span class="current-period-text font-bold text-emerald-700">T.P 2026/2027 - Semester Gasal</span></p>
                         </div>
                         
                         <div class="flex flex-wrap items-center gap-3">
@@ -581,7 +604,7 @@
                     <div class="mt-6 flex justify-end">
                         <button onclick="saveHafalanIbadah()" class="px-6 py-2.5 bg-ismuba-600 hover:bg-ismuba-700 text-white font-semibold text-xs rounded-xl shadow-lg shadow-ismuba-600/20 transition flex items-center space-x-2">
                             <i class="fas fa-check-circle"></i>
-                            <span>Simpan Penilaian Hafalan & Ibadah</span>
+                            <span>Simpan Hafalan & Ibadah Periode Ini</span>
                         </button>
                     </div>
                 </div>
@@ -596,7 +619,7 @@
                                 <i class="fas fa-heart text-red-500"></i>
                                 <span>Penilaian Pembiasaan Baik & Karakter ISMUBA</span>
                             </h2>
-                            <p class="text-xs text-slate-500 mt-0.5">Penilaian sikap kualitatif harian dalam kehidupan sekolah</p>
+                            <p class="text-xs text-slate-500 mt-0.5">Penilaian sikap kualitatif harian periode <span class="current-period-text font-bold text-emerald-700">T.P 2026/2027 - Semester Gasal</span></p>
                         </div>
                         
                         <div class="flex flex-wrap items-center gap-3">
@@ -662,7 +685,7 @@
                     <div class="mt-6 flex justify-end">
                         <button onclick="savePembiasaan()" class="px-6 py-2.5 bg-ismuba-600 hover:bg-ismuba-700 text-white font-semibold text-xs rounded-xl shadow-lg shadow-ismuba-600/20 transition flex items-center space-x-2">
                             <i class="fas fa-floppy-disk"></i>
-                            <span>Simpan Penilaian Pembiasaan Baik</span>
+                            <span>Simpan Pembiasaan Periode Ini</span>
                         </button>
                     </div>
                 </div>
@@ -709,15 +732,9 @@
                             <i class="fas fa-ruler mr-1.5"></i> F4 (215 x 330 mm)
                         </span>
 
-                        <button onclick="triggerPrintSelected()" class="px-4 py-2.5 bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center space-x-2">
-                            <i class="fas fa-print"></i>
-                            <span>Cetak Terpilih</span>
-                        </button>
-
-                        <button onclick="triggerPrintAllInClass()" class="px-5 py-2.5 bg-gradient-to-r from-ismuba-700 to-ismuba-600 hover:from-ismuba-800 hover:to-ismuba-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-ismuba-600/30 transition flex items-center space-x-2">
-                            <i class="fas fa-print-many font-bold text-sm"></i>
-                            <i class="fas fa-users text-sm"></i>
-                            <span>Cetak Rapor Per Kelas</span>
+                        <button onclick="window.print()" class="px-5 py-2.5 bg-gradient-to-r from-ismuba-700 to-ismuba-600 hover:from-ismuba-800 hover:to-ismuba-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-ismuba-600/30 transition flex items-center space-x-2">
+                            <i class="fas fa-print text-sm"></i>
+                            <span>Cetak Rapor Sekarang</span>
                         </button>
                     </div>
                 </div>
@@ -997,7 +1014,11 @@
             '9A', '9B', '9C', '9D'
         ];
 
-        let siswaData = [
+        let currentTahun = '2026/2027';
+        let currentSemester = 'Gasal';
+
+        // Default Master Data Seed
+        let defaultSiswaData = [
             { nisn: '20260701', nama: 'Ahmad Fauzi', kelas: '7A' },
             { nisn: '20260702', nama: 'Aisyah Humaira', kelas: '7A' },
             { nisn: '20260703', nama: 'Bilal Ramadhan', kelas: '7B' },
@@ -1008,7 +1029,7 @@
             { nisn: '20260902', nama: 'Ibrahim Khaliq', kelas: '9B' }
         ];
 
-        let mapelData = [
+        let defaultMapelData = [
             { id: '1', kode: 'PAI', nama: 'Pendidikan Agama Islam', kkm: 75 },
             { id: '2', kode: 'AQD', nama: 'Akidah Akhlak', kkm: 75 },
             { id: '3', kode: 'FQH', nama: 'Fiqih', kkm: 75 },
@@ -1017,7 +1038,7 @@
             { id: '6', kode: 'BAR', nama: 'Bahasa Arab', kkm: 75 }
         ];
 
-        let cpData = [
+        let defaultCPData = [
             { id: 'cp1', kode: 'CP-AQD-01', mapelId: '2', text: 'Memahami rukun iman dan Tauhid dalam kehidupan' },
             { id: 'cp2', kode: 'CP-FQH-01', mapelId: '3', text: 'Memahami tata cara sholat dan thaharah sesuai Sunnah HPT' },
             { id: 'cp3', kode: 'CP-KMD-01', mapelId: '5', text: 'Memahami sejarah dan kepribadian KH Ahmad Dahlan' },
@@ -1026,24 +1047,25 @@
             { id: 'cp6', kode: 'CP-PAI-01', mapelId: '1', text: 'Membaca dan menghafal Al-Qur\'an Juz 30 dengan tajwid' }
         ];
 
-        let nilaiData = {
-            '20260701_1': { tugas: 85, pts: 88, pas: 90, akhir: 88, predikat: 'B', deskripsi: 'Sangat baik dalam membaca dan menghafal surah target' },
-            '20260701_2': { tugas: 90, pts: 92, pas: 95, akhir: 93, predikat: 'A', deskripsi: 'Sangat menguasai konsep tauhid dan rukun iman' },
-            '20260701_3': { tugas: 88, pts: 85, pas: 89, akhir: 87, predikat: 'B', deskripsi: 'Baik dalam pemahaman tata cara sholat sesuai HPT' },
-            '20260701_4': { tugas: 80, pts: 82, pas: 85, akhir: 83, predikat: 'B', deskripsi: 'Memahami kronologi sejarah perjuangan Rasulullah' },
-            '20260701_5': { tugas: 92, pts: 90, pas: 94, akhir: 92, predikat: 'A', deskripsi: 'Sangat baik memahami kepribadian pendiri Muhammadiyah' },
-            '20260701_6': { tugas: 85, pts: 80, pas: 82, akhir: 82, predikat: 'B', deskripsi: 'Cukup mahir dalam muhadatsah bahasa Arab sehari-hari' },
+        // Seeded multi-period data stores
+        let defaultNilaiData = {
+            '2026/2027_Gasal_20260701_1': { tugas: 85, pts: 88, pas: 90, akhir: 88, predikat: 'B', deskripsi: 'Sangat baik dalam membaca dan menghafal surah target' },
+            '2026/2027_Gasal_20260701_2': { tugas: 90, pts: 92, pas: 95, akhir: 93, predikat: 'A', deskripsi: 'Sangat menguasai konsep tauhid dan rukun iman' },
+            '2026/2027_Gasal_20260701_3': { tugas: 88, pts: 85, pas: 89, akhir: 87, predikat: 'B', deskripsi: 'Baik dalam pemahaman tata cara sholat sesuai HPT' },
+            '2026/2027_Gasal_20260701_4': { tugas: 80, pts: 82, pas: 85, akhir: 83, predikat: 'B', deskripsi: 'Memahami kronologi sejarah perjuangan Rasulullah' },
+            '2026/2027_Gasal_20260701_5': { tugas: 92, pts: 90, pas: 94, akhir: 92, predikat: 'A', deskripsi: 'Sangat baik memahami kepribadian pendiri Muhammadiyah' },
+            '2026/2027_Gasal_20260701_6': { tugas: 85, pts: 80, pas: 82, akhir: 82, predikat: 'B', deskripsi: 'Cukup mahir dalam muhadatsah bahasa Arab sehari-hari' },
 
-            '20260702_1': { tugas: 92, pts: 90, pas: 95, akhir: 93, predikat: 'A', deskripsi: 'Sangat baik dalam tartil dan tajwid Al-Qur\'an' },
-            '20260702_2': { tugas: 88, pts: 90, pas: 87, akhir: 88, predikat: 'B', deskripsi: 'Menguasai konsep akidah dengan sangat baik' },
-            '20260702_3': { tugas: 90, pts: 95, pas: 92, akhir: 92, predikat: 'A', deskripsi: 'Sangat paham kaidah thaharah dan ibadah harian' },
-            '20260702_4': { tugas: 85, pts: 88, pas: 90, akhir: 88, predikat: 'B', deskripsi: 'Memahami materi SKI dengan baik' },
-            '20260702_5': { tugas: 95, pts: 90, pas: 96, akhir: 94, predikat: 'A', deskripsi: 'Sangat aktif dalam keorganisasian IPM/Muhammadiyah' },
-            '20260702_6': { tugas: 88, pts: 85, pas: 88, akhir: 87, predikat: 'B', deskripsi: 'Lancar dalam percakapan Bahasa Arab dasar' }
+            '2026/2027_Gasal_20260702_1': { tugas: 92, pts: 90, pas: 95, akhir: 93, predikat: 'A', deskripsi: 'Sangat baik dalam tartil dan tajwid Al-Qur\'an' },
+            '2026/2027_Gasal_20260702_2': { tugas: 88, pts: 90, pas: 87, akhir: 88, predikat: 'B', deskripsi: 'Menguasai konsep akidah dengan sangat baik' },
+            '2026/2027_Gasal_20260702_3': { tugas: 90, pts: 95, pas: 92, akhir: 92, predikat: 'A', deskripsi: 'Sangat paham kaidah thaharah dan ibadah harian' },
+            '2026/2027_Gasal_20260702_4': { tugas: 85, pts: 88, pas: 90, akhir: 88, predikat: 'B', deskripsi: 'Memahami materi SKI dengan baik' },
+            '2026/2027_Gasal_20260702_5': { tugas: 95, pts: 90, pas: 96, akhir: 94, predikat: 'A', deskripsi: 'Sangat aktif dalam keorganisasian IPM/Muhammadiyah' },
+            '2026/2027_Gasal_20260702_6': { tugas: 88, pts: 85, pas: 88, akhir: 87, predikat: 'B', deskripsi: 'Lancar dalam percakapan Bahasa Arab dasar' }
         };
 
-        let hafalanData = {
-            '20260701': {
+        let defaultHafalanData = {
+            '2026/2027_Gasal_20260701': {
                 surah: 'An-Naba, An-Naziat, Abasa, Al-Infitar, Muthaffifin',
                 capaian: 'Juz 30 Complete',
                 predikat: 'A (Mumtaz / Sangat Baik)',
@@ -1051,7 +1073,7 @@
                 wudhu: 'Sangat Tertib & Sesuai Sunnah',
                 janazah: 'Hafal 4 Takbir Sholat Janazah'
             },
-            '20260702': {
+            '2026/2027_Gasal_20260702': {
                 surah: 'An-Naba s.d At-Thariq',
                 capaian: 'Juz 30 Half',
                 predikat: 'B (Jayyid / Baik)',
@@ -1061,15 +1083,15 @@
             }
         };
 
-        let pembiasaanData = {
-            '20260701': {
+        let defaultPembiasaanData = {
+            '2026/2027_Gasal_20260701': {
                 sholat: 'Sangat Rajin (Selalu di shaf depan & tepat waktu)',
                 dhuha: 'Istiqomah Setiap Hari',
                 infak: 'Sangat Dermawan & Aktif Infak',
                 adab: 'Sangat Santun kepada Guru & Teman',
                 catatan: 'Ananda memiliki kepemimpinan spiritual yang baik dan berakhlak mulia.'
             },
-            '20260702': {
+            '2026/2027_Gasal_20260702': {
                 sholat: 'Rajin (Aktif mengikuti sholat berjamaah)',
                 dhuha: 'Istiqomah Setiap Hari',
                 infak: 'Rutin Mengisi Kotak Infak',
@@ -1078,11 +1100,32 @@
             }
         };
 
+        // State containers with LocalStorage persistence fallback
+        let siswaData = JSON.parse(localStorage.getItem('ismuba_siswaData')) || defaultSiswaData;
+        let mapelData = JSON.parse(localStorage.getItem('ismuba_mapelData')) || defaultMapelData;
+        let cpData = JSON.parse(localStorage.getItem('ismuba_cpData')) || defaultCPData;
+        let nilaiData = JSON.parse(localStorage.getItem('ismuba_nilaiData')) || defaultNilaiData;
+        let hafalanData = JSON.parse(localStorage.getItem('ismuba_hafalanData')) || defaultHafalanData;
+        let pembiasaanData = JSON.parse(localStorage.getItem('ismuba_pembiasaanData')) || defaultPembiasaanData;
+
         let temporaryImportSiswaData = [];
         let temporaryImportNilaiData = [];
         let currentPrintMode = 'single'; // 'single' | 'class'
 
+        function saveToStorage() {
+            localStorage.setItem('ismuba_siswaData', JSON.stringify(siswaData));
+            localStorage.setItem('ismuba_mapelData', JSON.stringify(mapelData));
+            localStorage.setItem('ismuba_cpData', JSON.stringify(cpData));
+            localStorage.setItem('ismuba_nilaiData', JSON.stringify(nilaiData));
+            localStorage.setItem('ismuba_hafalanData', JSON.stringify(hafalanData));
+            localStorage.setItem('ismuba_pembiasaanData', JSON.stringify(pembiasaanData));
+        }
+
         window.onload = function() {
+            currentTahun = document.getElementById('global-tahun-ajaran').value;
+            currentSemester = document.getElementById('global-semester').value;
+            
+            updatePeriodLabels();
             populateAllClassDropdowns();
             populateMapelDropdowns();
             renderSiswaTable();
@@ -1094,6 +1137,26 @@
             updateCetakStudentList();
             updateStats();
         };
+
+        function onGlobalPeriodChange() {
+            currentTahun = document.getElementById('global-tahun-ajaran').value;
+            currentSemester = document.getElementById('global-semester').value;
+            
+            updatePeriodLabels();
+            renderNilaiTable();
+            renderHafalanForm();
+            renderPembiasaanForm();
+            renderRaporPreview();
+            
+            showToast(`Periode aktif: T.P ${currentTahun} - Semester ${currentSemester}`, 'info');
+        }
+
+        function updatePeriodLabels() {
+            const elements = document.querySelectorAll('.current-period-text');
+            elements.forEach(el => {
+                el.innerText = `T.P ${currentTahun} - Semester ${currentSemester}`;
+            });
+        }
 
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
@@ -1287,6 +1350,7 @@
                 siswaData.push({ nisn, nama, kelas });
             }
 
+            saveToStorage();
             closeModalSiswa();
             renderSiswaTable();
             showToast('Data siswa berhasil disimpan');
@@ -1294,6 +1358,7 @@
 
         function deleteSiswa(nisn) {
             siswaData = siswaData.filter(s => s.nisn !== nisn);
+            saveToStorage();
             renderSiswaTable();
             showToast('Siswa berhasil dihapus', 'info');
         }
@@ -1305,6 +1370,7 @@
             const kkm = parseInt(document.getElementById('input-mapel-kkm').value);
 
             mapelData.push({ id: Date.now().toString(), kode, nama, kkm });
+            saveToStorage();
             populateMapelDropdowns();
             closeModalMapel();
             renderMapelTable();
@@ -1313,6 +1379,7 @@
 
         function deleteMapel(id) {
             mapelData = mapelData.filter(m => m.id !== id);
+            saveToStorage();
             populateMapelDropdowns();
             renderMapelTable();
             showToast('Mapel berhasil dihapus', 'info');
@@ -1325,6 +1392,7 @@
             const text = document.getElementById('input-cp-teks').value.trim();
 
             cpData.push({ id: Date.now().toString(), kode, mapelId, text });
+            saveToStorage();
             closeModalCP();
             renderCPTable();
             showToast('Capaian Pembelajaran disimpan');
@@ -1332,6 +1400,7 @@
 
         function deleteCP(id) {
             cpData = cpData.filter(c => c.id !== id);
+            saveToStorage();
             renderCPTable();
             showToast('CP berhasil dihapus', 'info');
         }
@@ -1418,6 +1487,7 @@
                 });
             }
 
+            saveToStorage();
             closeModalImportSiswa();
             renderSiswaTable();
             showToast(`Berhasil mengimpor ${temporaryImportSiswaData.length} data siswa`);
@@ -1458,6 +1528,19 @@
             return { grade: 'D', class: 'text-red-700 font-bold' };
         }
 
+        // Key Helper Functions for Multi-Period Storage
+        function getNilaiKey(nisn, mapelId) {
+            return `${currentTahun}_${currentSemester}_${nisn}_${mapelId}`;
+        }
+
+        function getHafalanKey(nisn) {
+            return `${currentTahun}_${currentSemester}_${nisn}`;
+        }
+
+        function getPembiasaanKey(nisn) {
+            return `${currentTahun}_${currentSemester}_${nisn}`;
+        }
+
         function renderNilaiTable() {
             const filterClass = document.getElementById('filter-nilai-kelas')?.value || 'ALL';
             const filterMapel = document.getElementById('filter-nilai-mapel')?.value || mapelData[0]?.id;
@@ -1474,7 +1557,7 @@
             }
 
             tbody.innerHTML = filteredSiswa.map((s, idx) => {
-                const key = `${s.nisn}_${filterMapel}`;
+                const key = getNilaiKey(s.nisn, filterMapel);
                 const grade = nilaiData[key] || { tugas: 0, pts: 0, pas: 0, akhir: 0, predikat: 'D', deskripsi: '' };
                 const predObj = calculatePredikat(grade.akhir);
 
@@ -1538,11 +1621,12 @@
                 const predObj = calculatePredikat(akhir);
                 const deskripsi = tr.querySelector('.input-deskripsi').value.trim();
 
-                const key = `${nisn}_${filterMapel}`;
+                const key = getNilaiKey(nisn, filterMapel);
                 nilaiData[key] = { tugas, pts, pas, akhir, predikat: predObj.grade, deskripsi };
             });
 
-            showToast('Seluruh data nilai berhasil disimpan');
+            saveToStorage();
+            showToast(`Nilai T.P ${currentTahun} (${currentSemester}) disimpan`);
         }
 
         function generateAutoDescriptions() {
@@ -1643,7 +1727,7 @@
             temporaryImportNilaiData.forEach(item => {
                 const akhir = Math.round((item.tugas * 0.3) + (item.pts * 0.3) + (item.pas * 0.4));
                 const predObj = calculatePredikat(akhir);
-                const key = `${item.nisn}_${targetMapel}`;
+                const key = getNilaiKey(item.nisn, targetMapel);
 
                 nilaiData[key] = {
                     tugas: item.tugas,
@@ -1655,6 +1739,7 @@
                 };
             });
 
+            saveToStorage();
             closeModalImportNilai();
             renderNilaiTable();
             showToast(`Berhasil mengimpor nilai untuk ${temporaryImportNilaiData.length} siswa`);
@@ -1671,6 +1756,7 @@
 
             if (filtered.length === 0) {
                 selectStudent.innerHTML = `<option value="">Tidak ada siswa</option>`;
+                renderHafalanForm();
                 return;
             }
 
@@ -1680,7 +1766,10 @@
 
         function renderHafalanForm() {
             const nisn = document.getElementById('select-student-hafalan').value;
-            const data = hafalanData[nisn] || {
+            if (!nisn) return;
+
+            const key = getHafalanKey(nisn);
+            const data = hafalanData[key] || {
                 surah: '',
                 capaian: '',
                 predikat: 'A (Mumtaz / Sangat Baik)',
@@ -1701,7 +1790,8 @@
             const nisn = document.getElementById('select-student-hafalan').value;
             if (!nisn) return;
 
-            hafalanData[nisn] = {
+            const key = getHafalanKey(nisn);
+            hafalanData[key] = {
                 surah: document.getElementById('hafalan-surah').value.trim(),
                 capaian: document.getElementById('hafalan-capaian').value.trim(),
                 predikat: document.getElementById('hafalan-predikat').value,
@@ -1710,7 +1800,8 @@
                 janazah: document.getElementById('ibadah-janazah').value.trim()
             };
 
-            showToast('Penilaian hafalan & ibadah berhasil disimpan');
+            saveToStorage();
+            showToast(`Penilaian hafalan & ibadah T.P ${currentTahun} (${currentSemester}) disimpan`);
         }
 
         function updatePembiasaanStudentList() {
@@ -1724,6 +1815,7 @@
 
             if (filtered.length === 0) {
                 selectStudent.innerHTML = `<option value="">Tidak ada siswa</option>`;
+                renderPembiasaanForm();
                 return;
             }
 
@@ -1733,7 +1825,10 @@
 
         function renderPembiasaanForm() {
             const nisn = document.getElementById('select-student-pembiasaan').value;
-            const data = pembiasaanData[nisn] || {
+            if (!nisn) return;
+
+            const key = getPembiasaanKey(nisn);
+            const data = pembiasaanData[key] || {
                 sholat: 'Sangat Rajin (Selalu di shaf depan & tepat waktu)',
                 dhuha: 'Istiqomah Setiap Hari',
                 infak: 'Sangat Dermawan & Aktif Infak',
@@ -1752,7 +1847,8 @@
             const nisn = document.getElementById('select-student-pembiasaan').value;
             if (!nisn) return;
 
-            pembiasaanData[nisn] = {
+            const key = getPembiasaanKey(nisn);
+            pembiasaanData[key] = {
                 sholat: document.getElementById('habit-sholat').value,
                 dhuha: document.getElementById('habit-dhuha').value,
                 infak: document.getElementById('habit-infak').value,
@@ -1760,7 +1856,8 @@
                 catatan: document.getElementById('habit-catatan').value.trim()
             };
 
-            showToast('Penilaian pembiasaan baik disimpan');
+            saveToStorage();
+            showToast(`Penilaian pembiasaan T.P ${currentTahun} (${currentSemester}) disimpan`);
         }
 
         function setPrintMode(mode) {
@@ -1795,7 +1892,7 @@
             }
 
             const badge = document.getElementById('print-student-count-badge');
-            badge.innerText = `${filtered.length} Siswa di Kelas ${filterClass}`;
+            badge.innerText = `${filtered.length} Siswa Terpilih`;
 
             if (filtered.length === 0) {
                 selectStudent.innerHTML = `<option value="">Tidak ada siswa</option>`;
@@ -1807,175 +1904,171 @@
         }
 
         function buildSingleRaporHTML(siswa) {
-            if (!siswa) return '';
+            const hKey = getHafalanKey(siswa.nisn);
+            const pKey = getPembiasaanKey(siswa.nisn);
 
-            // Mapel Rows
-            const mapelRowsHTML = mapelData.map((m, idx) => {
-                const key = `${siswa.nisn}_${m.id}`;
-                const grade = nilaiData[key] || { akhir: '-', predikat: '-', deskripsi: 'Belum diisi' };
-                return `
-                    <tr>
-                        <td class="border border-slate-400 p-1.5 text-center font-bold text-slate-600">${idx + 1}</td>
-                        <td class="border border-slate-400 p-1.5 font-bold text-slate-800">${m.nama}</td>
-                        <td class="border border-slate-400 p-1.5 text-center font-bold text-slate-600">${m.kkm}</td>
-                        <td class="border border-slate-400 p-1.5 text-center font-extrabold text-slate-900">${grade.akhir}</td>
-                        <td class="border border-slate-400 p-1.5 text-center font-bold text-ismuba-800">${grade.predikat}</td>
-                        <td class="border border-slate-400 p-1.5 text-slate-800">${grade.deskripsi || '-'}</td>
-                    </tr>
-                `;
-            }).join('');
-
-            // Hafalan & Ibadah
-            const hafalan = hafalanData[siswa.nisn] || {
-                surah: 'Belum dicatat',
+            const hafalan = hafalanData[hKey] || {
+                surah: '-',
                 capaian: '-',
                 predikat: '-',
                 sholat: 'Sangat Baik',
-                wudhu: 'Baik',
-                janazah: 'Hafal'
+                wudhu: 'Tertib',
+                janazah: '-'
             };
 
-            // Pembiasaan
-            const habit = pembiasaanData[siswa.nisn] || {
-                sholat: 'Sangat Rajin',
+            const pembiasaan = pembiasaanData[pKey] || {
+                sholat: 'Sangat Baik',
                 dhuha: 'Istiqomah',
                 infak: 'Aktif',
                 adab: 'Sangat Santun',
-                catatan: 'Ananda berakhlak mulia dan berprestasi.'
+                catatan: 'Pertahankan semangat belajar dan akhlak terpuji.'
             };
 
+            let nilaiRowsHTML = '';
+            let totalNilai = 0;
+            let totalCount = 0;
+
+            mapelData.forEach((m, idx) => {
+                const nKey = getNilaiKey(siswa.nisn, m.id);
+                const grade = nilaiData[nKey] || { akhir: 0, predikat: '-', deskripsi: 'Belum terisi' };
+                if (grade.akhir > 0) {
+                    totalNilai += grade.akhir;
+                    totalCount++;
+                }
+
+                nilaiRowsHTML += `
+                    <tr class="border-b border-slate-300">
+                        <td class="p-2 text-center border-r border-slate-300 font-bold">${idx + 1}</td>
+                        <td class="p-2 border-r border-slate-300 font-semibold text-left">${m.nama}</td>
+                        <td class="p-2 text-center border-r border-slate-300 font-bold">${m.kkm}</td>
+                        <td class="p-2 text-center border-r border-slate-300 font-extrabold">${grade.akhir || '-'}</td>
+                        <td class="p-2 text-center border-r border-slate-300 font-bold">${grade.predikat || '-'}</td>
+                        <td class="p-2 text-left text-[11px] leading-snug">${grade.deskripsi || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            const rataRata = totalCount > 0 ? (totalNilai / totalCount).toFixed(1) : '-';
+
             return `
-                <div class="rapor-page shadow-2xl rounded-sm border border-slate-300 relative text-slate-900">
-                    <!-- Kop Surat Rapor ISMUBA -->
-                    <div class="border-b-4 border-double border-slate-900 pb-3 mb-4 text-center relative">
-                        <div class="flex items-center justify-between">
-                            <div class="w-16 h-16 flex items-center justify-center font-bold text-3xl text-emerald-800">
-                                <i class="fas fa-star-and-crescent"></i>
-                            </div>
-                            <div class="flex-1 text-center px-2">
-                                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-800">MAJELIS PENDIDIKAN DASAR MENENGAH DAN PNF</h3>
-                                <h2 class="text-sm font-black uppercase tracking-wider text-slate-900">PIMPINAN DAERAH MUHAMMADIYAH</h2>
-                                <h1 class="text-base font-black uppercase text-ismuba-800 tracking-wide my-0.5">SEKOLAH MUHAMMADIYAH UNGGULAN</h1>
-                                <p class="text-[10px] text-slate-600 italic">Kompleks Perguruan Muhammadiyah - Telp. (0274) 555-1234</p>
-                            </div>
-                            <div class="w-16 h-16 flex items-center justify-center font-bold text-3xl text-emerald-800">
-                                <i class="fas fa-sun"></i>
+                <div class="rapor-page font-sans text-slate-900 border border-slate-200 shadow-md my-4 bg-white flex flex-col justify-between">
+                    <div>
+                        <!-- Kop Rapor ISMUBA -->
+                        <div class="text-center border-b-2 border-slate-900 pb-3 mb-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-16 h-16 flex items-center justify-center bg-emerald-800 text-amber-300 rounded-full font-arabic font-bold text-2xl">م</div>
+                                <div class="text-center flex-1 mx-2">
+                                    <h3 class="font-extrabold text-xs uppercase tracking-wider text-slate-800">MAJELIS PENDIDIKAN DASAR MENENGAH DAN PNF</h3>
+                                    <h2 class="font-black text-base uppercase text-emerald-900 tracking-wide">PIMPINAN DAERAH MUHAMMADIYAH</h2>
+                                    <h1 class="font-extrabold text-sm uppercase text-slate-900">LAPORAN HASIL BELAJAR ISMUBA (E-RAPOR)</h1>
+                                    <p class="text-[10px] text-slate-600 font-medium italic">Al-Islam, Kemuhammadiyahan dan Bahasa Arab</p>
+                                </div>
+                                <div class="w-16 h-16 flex items-center justify-center bg-amber-500 text-white rounded-full font-bold text-2xl"><i class="fas fa-star-and-crescent"></i></div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Title Rapor -->
-                    <div class="text-center mb-4">
-                        <h2 class="text-sm font-extrabold uppercase tracking-widest border-b border-slate-800 inline-block px-4 pb-0.5">LAPORAN HASIL BELAJAR ISMUBA</h2>
-                        <p class="text-[10px] font-semibold text-slate-600 uppercase mt-0.5">(Al-Islam, Kemuhammadiyahan, dan Bahasa Arab)</p>
-                    </div>
+                        <!-- Header Metadata Identitas Siswa -->
+                        <div class="grid grid-cols-2 gap-x-6 text-xs mb-4 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                            <table class="w-full text-left">
+                                <tr><td class="w-28 font-semibold py-0.5">Nama Siswa</td><td class="w-2">:</td><td class="font-bold text-slate-900 py-0.5">${siswa.nama}</td></tr>
+                                <tr><td class="font-semibold py-0.5">NIS / NISN</td><td>:</td><td class="font-bold py-0.5">${siswa.nisn}</td></tr>
+                                <tr><td class="font-semibold py-0.5">Kelas</td><td>:</td><td class="font-bold py-0.5">${siswa.kelas}</td></tr>
+                            </table>
+                            <table class="w-full text-left">
+                                <tr><td class="w-28 font-semibold py-0.5">Semester</td><td class="w-2">:</td><td class="font-bold text-emerald-800 py-0.5">${currentSemester}</td></tr>
+                                <tr><td class="font-semibold py-0.5">Tahun Pelajaran</td><td>:</td><td class="font-bold text-emerald-800 py-0.5">${currentTahun}</td></tr>
+                                <tr><td class="font-semibold py-0.5">Satuan Pendidikan</td><td>:</td><td class="font-bold py-0.5">SMP Muhammadiyah</td></tr>
+                            </table>
+                        </div>
 
-                    <!-- Identitas Siswa -->
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-1 mb-4 text-[11px] font-medium bg-slate-50/50 p-2.5 rounded-lg border border-slate-200">
-                        <div class="flex"><span class="w-28 font-semibold">Nama Siswa</span><span class="mr-1">:</span><span class="font-bold text-slate-900">${siswa.nama}</span></div>
-                        <div class="flex"><span class="w-28 font-semibold">Tahun Ajaran</span><span class="mr-1">:</span><span>2026/2027</span></div>
-                        <div class="flex"><span class="w-28 font-semibold">NIS / NISN</span><span class="mr-1">:</span><span>${siswa.nisn}</span></div>
-                        <div class="flex"><span class="w-28 font-semibold">Semester</span><span class="mr-1">:</span><span>1 (Ganjil)</span></div>
-                        <div class="flex"><span class="w-28 font-semibold">Kelas</span><span class="mr-1">:</span><span class="font-bold text-slate-900">${siswa.kelas}</span></div>
-                        <div class="flex"><span class="w-28 font-semibold">Tanggal Rapor</span><span class="mr-1">:</span><span>20 Desember 2026</span></div>
-                    </div>
+                        <!-- TABEL A: PENILAIAN AKADEMIK ISMUBA -->
+                        <div class="mb-4">
+                            <h4 class="font-bold text-xs uppercase mb-1.5 text-slate-800 flex items-center">
+                                <span class="bg-emerald-800 text-white w-5 h-5 rounded-full inline-flex items-center justify-center text-[10px] mr-1.5">A</span>
+                                Capaian Pembelajaran Akademik ISMUBA
+                            </h4>
+                            <table class="w-full border-collapse border border-slate-300 text-xs">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-800 border-b border-slate-300 font-bold uppercase text-[11px]">
+                                        <th class="p-2 border-r border-slate-300 w-8 text-center">No</th>
+                                        <th class="p-2 border-r border-slate-300 w-44 text-left">Mata Pelajaran</th>
+                                        <th class="p-2 border-r border-slate-300 w-12 text-center">KKM</th>
+                                        <th class="p-2 border-r border-slate-300 w-12 text-center">Nilai</th>
+                                        <th class="p-2 border-r border-slate-300 w-12 text-center">Pred.</th>
+                                        <th class="p-2 text-left">Capaian Pembelajaran / Deskripsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${nilaiRowsHTML}
+                                    <tr class="bg-slate-50 font-bold border-t border-slate-300">
+                                        <td colspan="3" class="p-2 text-right border-r border-slate-300">Rata-Rata Nilai ISMUBA:</td>
+                                        <td class="p-2 text-center border-r border-slate-300 font-black text-emerald-900">${rataRata}</td>
+                                        <td colspan="2" class="p-2 text-left text-[10px] text-slate-500 font-normal">Tercatat pada Semester ${currentSemester} T.P ${currentTahun}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <!-- Table A: Nilai Akademik ISMUBA -->
-                    <div class="mb-4">
-                        <h3 class="font-bold text-xs uppercase text-slate-800 mb-1.5 flex items-center">
-                            <span class="bg-slate-800 text-white px-1.5 py-0.5 rounded mr-1.5 text-[10px]">A</span>
-                            <span>Capaian Kompetensi Akademik ISMUBA</span>
-                        </h3>
-                        <table class="w-full border-collapse border border-slate-400 text-[10px]">
-                            <thead>
-                                <tr class="bg-slate-100 text-slate-800 font-bold uppercase text-center">
-                                    <th class="border border-slate-400 p-1.5 w-8">No</th>
-                                    <th class="border border-slate-400 p-1.5 text-left">Mata Pelajaran ISMUBA</th>
-                                    <th class="border border-slate-400 p-1.5 w-12">KKM</th>
-                                    <th class="border border-slate-400 p-1.5 w-12">Nilai</th>
-                                    <th class="border border-slate-400 p-1.5 w-14">Predikat</th>
-                                    <th class="border border-slate-400 p-1.5 text-left">Deskripsi Capaian Pembelajaran</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${mapelRowsHTML}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Table B & C Split Grid -->
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <!-- B. Hafalan Al-Qur'an & Hadits -->
-                        <div class="border border-slate-300 rounded p-2.5 bg-slate-50/30">
-                            <h3 class="font-bold text-xs uppercase text-slate-800 mb-1 flex items-center">
-                                <span class="bg-slate-800 text-white px-1.5 py-0.5 rounded mr-1.5 text-[10px]">B</span>
-                                <span>Hafalan Al-Qur'an & Hadits</span>
-                            </h3>
-                            <div class="text-[10px] space-y-1.5 pt-1">
-                                <div><span class="font-semibold text-slate-600">Surah / Hadits Terhafal:</span></div>
-                                <p class="italic text-slate-800 bg-white p-1.5 rounded border border-slate-200 font-serif">${hafalan.surah || '-'}</p>
-                                <div class="flex justify-between pt-1">
-                                    <span>Capaian: <strong class="text-slate-800">${hafalan.capaian || '-'}</strong></span>
-                                    <span>Predikat: <strong class="text-ismuba-800">${hafalan.predikat || '-'}</strong></span>
+                        <!-- TABEL B: HAFALAN & PRAKTIK IBADAH -->
+                        <div class="mb-4">
+                            <h4 class="font-bold text-xs uppercase mb-1.5 text-slate-800 flex items-center">
+                                <span class="bg-amber-600 text-white w-5 h-5 rounded-full inline-flex items-center justify-center text-[10px] mr-1.5">B</span>
+                                Capaian Hafalan Al-Qur'an & Praktik Ibadah
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div class="border border-slate-300 rounded-lg p-2.5 bg-slate-50/50 space-y-1">
+                                    <p class="font-bold text-amber-800 border-b border-slate-200 pb-1">1. Hafalan Al-Qur'an & Hadits Target</p>
+                                    <p class="text-[11px]"><strong>Surah/Hadits:</strong> ${hafalan.surah || '-'}</p>
+                                    <p class="text-[11px]"><strong>Target Capaian:</strong> ${hafalan.capaian || '-'}</p>
+                                    <p class="text-[11px]"><strong>Predikat Kelancaran:</strong> <span class="font-bold text-emerald-800">${hafalan.predikat || '-'}</span></p>
+                                </div>
+                                <div class="border border-slate-300 rounded-lg p-2.5 bg-slate-50/50 space-y-1">
+                                    <p class="font-bold text-emerald-800 border-b border-slate-200 pb-1">2. Praktik Ibadah Harian (HPT)</p>
+                                    <p class="text-[11px]"><strong>Sholat Fardhu:</strong> ${hafalan.sholat || '-'}</p>
+                                    <p class="text-[11px]"><strong>Wudhu/Thaharah:</strong> ${hafalan.wudhu || '-'}</p>
+                                    <p class="text-[11px]"><strong>Sholat Janazah/Doa:</strong> ${hafalan.janazah || '-'}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- C. Praktik Ibadah -->
-                        <div class="border border-slate-300 rounded p-2.5 bg-slate-50/30">
-                            <h3 class="font-bold text-xs uppercase text-slate-800 mb-1 flex items-center">
-                                <span class="bg-slate-800 text-white px-1.5 py-0.5 rounded mr-1.5 text-[10px]">C</span>
-                                <span>Penilaian Praktik Ibadah</span>
-                            </h3>
-                            <div class="text-[10px] space-y-1 pt-1">
-                                <div class="flex justify-between border-b border-slate-200 pb-0.5">
-                                    <span class="text-slate-600">Sholat Fardhu/Sunnah:</span>
-                                    <span class="font-semibold text-right text-slate-800">${hafalan.sholat || '-'}</span>
-                                </div>
-                                <div class="flex justify-between border-b border-slate-200 pb-0.5">
-                                    <span class="text-slate-600">Thaharah & Wudhu:</span>
-                                    <span class="font-semibold text-right text-slate-800">${hafalan.wudhu || '-'}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-slate-600">Sholat Janazah:</span>
-                                    <span class="font-semibold text-right text-slate-800">${hafalan.janazah || '-'}</span>
-                                </div>
+                        <!-- TABEL C: PEMBIASAAN BAIK & KARAKTER -->
+                        <div class="mb-4">
+                            <h4 class="font-bold text-xs uppercase mb-1.5 text-slate-800 flex items-center">
+                                <span class="bg-purple-700 text-white w-5 h-5 rounded-full inline-flex items-center justify-center text-[10px] mr-1.5">C</span>
+                                Pembiasaan Baik & Karakter Akhlak
+                            </h4>
+                            <div class="grid grid-cols-2 gap-2 text-[11px]">
+                                <div class="p-2 border border-slate-200 rounded bg-slate-50"><strong>Sholat Berjamaah:</strong> ${pembiasaan.sholat || '-'}</div>
+                                <div class="p-2 border border-slate-200 rounded bg-slate-50"><strong>Sholat Dhuha/Tadarus:</strong> ${pembiasaan.dhuha || '-'}</div>
+                                <div class="p-2 border border-slate-200 rounded bg-slate-50"><strong>Infak / Sedekah:</strong> ${pembiasaan.infak || '-'}</div>
+                                <div class="p-2 border border-slate-200 rounded bg-slate-50"><strong>Adab & Santun:</strong> ${pembiasaan.adab || '-'}</div>
                             </div>
+                        </div>
+
+                        <!-- CATATAN WALI KELAS -->
+                        <div class="border border-slate-300 rounded-lg p-2.5 text-xs bg-emerald-50/30 mb-4">
+                            <p class="font-bold text-slate-800 mb-1">Catatan & Rekomendasi Guru ISMUBA / Wali Kelas:</p>
+                            <p class="italic text-slate-700 leading-relaxed text-[11px]">"${pembiasaan.catatan || 'Tingkatkan semangat ibadah dan pertahankan akhlakul karimah.'}"</p>
                         </div>
                     </div>
 
-                    <!-- Table D: Pembiasaan Baik & Karakter -->
-                    <div class="mb-4">
-                        <h3 class="font-bold text-xs uppercase text-slate-800 mb-1.5 flex items-center">
-                            <span class="bg-slate-800 text-white px-1.5 py-0.5 rounded mr-1.5 text-[10px]">D</span>
-                            <span>Pembiasaan Baik & Karakter Akhlakul Karimah</span>
-                        </h3>
-                        <div class="border border-slate-300 rounded p-2.5 text-[10px] grid grid-cols-2 gap-2 bg-slate-50/30">
-                            <div><strong>Sholat Berjamaah:</strong> <span>${habit.sholat || '-'}</span></div>
-                            <div><strong>Sholat Dhuha/Tadarus:</strong> <span>${habit.dhuha || '-'}</span></div>
-                            <div><strong>Infak & Sedekah:</strong> <span>${habit.infak || '-'}</span></div>
-                            <div><strong>Adab & Sopan Santun:</strong> <span>${habit.adab || '-'}</span></div>
-                            <div class="col-span-2 border-t border-slate-200 pt-1.5 mt-1">
-                                <strong>Catatan Wali Kelas:</strong> <span class="italic text-slate-800">${habit.catatan || '-'}</span>
+                    <!-- LEMBAR TANDA TANGAN -->
+                    <div class="pt-4 mt-auto">
+                        <div class="grid grid-cols-3 text-center text-xs space-y-0">
+                            <div>
+                                <p class="mb-12">Orang Tua / Wali Siswa</p>
+                                <p class="font-bold underline uppercase">( ............................................ )</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Signature Section -->
-                    <div class="mt-8 pt-4 border-t border-slate-300 grid grid-cols-3 text-center text-[10px] gap-2">
-                        <div>
-                            <p class="mb-12">Orang Tua / Wali Siswa,</p>
-                            <p class="font-bold border-b border-slate-800 inline-block px-4">( .................................... )</p>
-                        </div>
-                        <div>
-                            <p class="mb-12">Guru Pengampu ISMUBA,</p>
-                            <p class="font-bold border-b border-slate-800 inline-block px-2">Ustadz Ahmad, S.Pd.I</p>
-                        </div>
-                        <div>
-                            <p class="mb-[2px]">Mengetahui,</p>
-                            <p class="mb-10 font-bold">Kepala Sekolah</p>
-                            <p class="font-bold border-b border-slate-800 inline-block px-2">H. Muhammad Syukri, M.Pd.</p>
-                            <p class="text-[9px] text-slate-600">NBM. 1092.3847.112</p>
+                            <div>
+                                <p class="mb-12">Guru ISMUBA / Wali Kelas</p>
+                                <p class="font-bold underline uppercase">Ustadz Ahmad, S.Pd.I</p>
+                                <p class="text-[10px] text-slate-500">NIP. 198503122010011002</p>
+                            </div>
+                            <div>
+                                <p class="mb-12">Mengetahui,<br>Kepala Sekolah</p>
+                                <p class="font-bold underline uppercase">Drs. H. Muhammad Ridwan, M.Pd</p>
+                                <p class="text-[10px] text-slate-500">NKTAM. 842.102.991</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1983,55 +2076,32 @@
         }
 
         function renderRaporPreview() {
-            const printArea = document.getElementById('f4-print-area');
+            const container = document.getElementById('f4-print-area');
             const filterClass = document.getElementById('filter-cetak-kelas').value;
-
-            let targetSiswaList = [];
 
             if (currentPrintMode === 'single') {
-                const selectedNisn = document.getElementById('select-student-cetak').value;
-                const student = siswaData.find(s => s.nisn === selectedNisn);
-                if (student) targetSiswaList.push(student);
-            } else {
-                if (filterClass === 'ALL') {
-                    targetSiswaList = siswaData;
-                } else {
-                    targetSiswaList = siswaData.filter(s => s.kelas === filterClass);
+                const nisn = document.getElementById('select-student-cetak').value;
+                const siswa = siswaData.find(s => s.nisn === nisn);
+
+                if (!siswa) {
+                    container.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold">Silakan pilih siswa untuk menampilkan pratinjau rapor.</div>`;
+                    return;
                 }
+
+                container.innerHTML = buildSingleRaporHTML(siswa);
+            } else {
+                let listSiswa = siswaData;
+                if (filterClass !== 'ALL') {
+                    listSiswa = siswaData.filter(s => s.kelas === filterClass);
+                }
+
+                if (listSiswa.length === 0) {
+                    container.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold">Tidak ada siswa pada kelas ${filterClass}.</div>`;
+                    return;
+                }
+
+                container.innerHTML = listSiswa.map(s => buildSingleRaporHTML(s)).join('');
             }
-
-            if (targetSiswaList.length === 0) {
-                printArea.innerHTML = `
-                    <div class="p-12 text-center text-slate-400 italic bg-white border border-slate-200 rounded-2xl w-full max-w-2xl">
-                        <i class="fas fa-print text-4xl mb-3 text-slate-300 block"></i>
-                        <span>Tidak ada data siswa untuk dicetak. Silakan pilih kelas atau tambahkan data siswa.</span>
-                    </div>
-                `;
-                return;
-            }
-
-            printArea.innerHTML = targetSiswaList.map(s => buildSingleRaporHTML(s)).join('');
-        }
-
-        function triggerPrintSelected() {
-            setPrintMode('single');
-            window.print();
-        }
-
-        function triggerPrintAllInClass() {
-            setPrintMode('class');
-            const filterClass = document.getElementById('filter-cetak-kelas').value;
-            const filteredCount = (filterClass === 'ALL') ? siswaData.length : siswaData.filter(s => s.kelas === filterClass).length;
-
-            if (filteredCount === 0) {
-                showToast('Tidak ada siswa pada kelas terpilih untuk dicetak', 'error');
-                return;
-            }
-
-            showToast(`Menyiapkan cetak rapor untuk ${filteredCount} siswa (Kelas ${filterClass})...`);
-            setTimeout(() => {
-                window.print();
-            }, 300);
         }
     </script>
 </body>
