@@ -140,7 +140,10 @@
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </span>
                         <input type="password" id="loginPassword" required placeholder="••••••••" value="admin123"
-                            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition">
+                            class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 transition outline-none" title="Tampilkan / Sembunyikan Password">
+                            <i id="togglePasswordIcon" data-lucide="eye" class="w-4 h-4"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -981,6 +984,23 @@
             }, 3000);
         }
 
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('loginPassword');
+            const toggleIcon = document.getElementById('togglePasswordIcon');
+            if (!pwdInput || !toggleIcon) return;
+
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                toggleIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                pwdInput.type = 'password';
+                toggleIcon.setAttribute('data-lucide', 'eye');
+            }
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const u = document.getElementById('loginUser').value.trim();
@@ -1195,12 +1215,10 @@
         }
 
         function deleteMapel(id) {
-            if(confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')) {
-                state.mapel = state.mapel.filter(x => x.id !== id);
-                saveDataToStorage();
-                renderMapelTable();
-                showToast('Mata Pelajaran berhasil dihapus.');
-            }
+            state.mapel = state.mapel.filter(x => x.id !== id);
+            saveDataToStorage();
+            renderMapelTable();
+            showToast('Mata Pelajaran berhasil dihapus.');
         }
 
         function renderSiswaTable() {
@@ -1287,12 +1305,10 @@
         }
 
         function deleteSiswa(id) {
-            if(confirm('Hapus data siswa ini?')) {
-                state.siswa = state.siswa.filter(x => x.id !== id);
-                saveDataToStorage();
-                renderSiswaTable();
-                showToast('Data siswa berhasil dihapus.');
-            }
+            state.siswa = state.siswa.filter(x => x.id !== id);
+            saveDataToStorage();
+            renderSiswaTable();
+            showToast('Data siswa berhasil dihapus.');
         }
 
         function exportSiswaExcel() {
@@ -1365,13 +1381,6 @@
             loadNilaiForm();
         }
 
-        /* -------------------------------------------------------------
-           PERHITUNGAN KRITERIA PREDIKAT:
-           90 - 100 : A
-           75 - 89  : B
-           61 - 74  : C
-           0  - 60  : D
-        ------------------------------------------------------------- */
         function calculatePredikatAndDeskripsi(score, kktp, cpText) {
             const val = parseFloat(score);
             if(isNaN(val) || score === '' || score === null) return { predikat: '-', deskripsi: 'Belum ada penilaian' };
@@ -1742,7 +1751,7 @@
         function generateSingleRaporHTML(siswa) {
             const semesterArr = state.tahunSemester.split(' - ');
             const tahunAjaran = semesterArr[0] || '2026/2027';
-            const semesterText = semesterArr[1] || 'Semester Ganjil';
+            const semesterText = semesterArr[1] || 'Ganjil';
 
             const cfg = state.pengaturan;
             const formattedDate = cfg.tanggalCetak 
@@ -1801,7 +1810,7 @@
                         </div>
 
                         <div class="text-center font-bold text-[12pt] uppercase mb-3 underline tracking-wide">
-                            LAPORAN HASIL BELAJAR PESERTA DIDIK (RAPOR ISMUBA)
+                            LAPORAN HASIL BELAJAR (RAPOR ISMUBA)
                         </div>
 
                         <!-- IDENTITAS SISWA -->
@@ -1840,36 +1849,36 @@
                             <table class="w-full border-collapse border border-slate-300 text-[9.5pt]">
                                 <thead>
                                     <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300">
-                                        <th class="p-2 border-r border-slate-300 text-center">Target / Surah Hafalan</th>
-                                        <th class="p-2 border-r border-slate-300 w-16 text-center">Nilai</th>
-                                        <th class="p-2 border-r border-slate-300 w-16 text-center">Predikat</th>
-                                        <th class="p-2 text-center">Catatan Perkembangan Hafalan</th>
+                                        <th class="p-2 border-r border-slate-300 w-44 text-center">Target / Surah Hafalan</th>
+                                        <th class="p-2 border-r border-slate-300 w-12 text-center">Nilai</th>
+                                        <th class="p-2 border-r border-slate-300 w-14 text-center">Predikat</th>
+                                        <th class="p-2 text-center">Catatan Pembimbing Tahfidz</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="p-2 border-r border-slate-300 font-medium">${tData.surah}</td>
-                                        <td class="p-2 border-r border-slate-300 text-center font-bold">${tData.score}</td>
-                                        <td class="p-2 border-r border-slate-300 text-center font-bold">${tData.predikat}</td>
+                                    <tr class="border-b border-slate-300">
+                                        <td class="p-2 border-r border-slate-300 font-semibold text-slate-900">${tData.surah}</td>
+                                        <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${tData.score}</td>
+                                        <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${tData.predikat}</td>
                                         <td class="p-2 text-slate-800 text-[9.5pt]">${tData.catatan}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
-                        <!-- C. PEMBIASAAN KARAKTER -->
+                        <!-- C. PEMBIASAAN & KARAKTER ISLAMI -->
                         <div class="mb-4">
                             <h4 class="font-bold text-slate-900 text-[10.5pt] mb-1.5">C. PEMBIASAAN & KARAKTER ISLAMI</h4>
                             <table class="w-full border-collapse border border-slate-300 text-[9.5pt]">
                                 <thead>
                                     <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300">
                                         <th class="p-2 border-r border-slate-300 w-32 text-center">Predikat</th>
-                                        <th class="p-2 text-center">Catatan Perkembangan Karakter</th>
+                                        <th class="p-2 text-center">Catatan Perkembangan Karakter & Akhlak</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="p-2 border-r border-slate-300 text-center font-bold">${pData.predikat}</td>
+                                    <tr class="border-b border-slate-300">
+                                        <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${pData.predikat}</td>
                                         <td class="p-2 text-slate-800 text-[9.5pt]">${pData.deskripsi}</td>
                                     </tr>
                                 </tbody>
@@ -1877,25 +1886,27 @@
                         </div>
                     </div>
 
-                    <!-- TANDA TANGAN -->
-                    <div class="mt-6 pt-2 border-t border-slate-200">
-                        <div class="flex justify-between items-end text-[9.5pt] text-slate-900">
-                            <div class="text-center w-48">
-                                <p class="mb-12">Orang Tua / Wali Siswa</p>
-                                <p class="font-bold underline">( .................................... )</p>
+                    <!-- FOOTER TANDA TANGAN -->
+                    <div class="mt-6 pt-2">
+                        <div class="flex justify-between items-end text-[9.5pt]">
+                            <div class="text-center w-52">
+                                <p class="mb-1">Mengetahui,</p>
+                                <p class="font-semibold mb-14">Orang Tua / Wali Siswa</p>
+                                <p class="font-bold underline text-slate-900">( ............................................ )</p>
                             </div>
-                            <div class="text-center w-56">
-                                <p>${cfg.kotaCetak || 'Sleman'}, ${formattedDate}</p>
-                                <p class="mb-12">Guru Al-Islam & Kemuhammadiyahan</p>
-                                <p class="font-bold underline">${cfg.namaGuru || 'Ganjar Rachmawan Adiprana, M.Pd.'}</p>
-                                <p class="text-[8.5pt]">NIP/NBM: ${cfg.nipGuru || '-'}</p>
+
+                            <div class="text-center w-60">
+                                <p class="mb-1">${cfg.kotaCetak || 'Sleman'}, ${formattedDate}</p>
+                                <p class="font-semibold mb-14">Guru ISMUBA / Wali Kelas</p>
+                                <p class="font-bold underline text-slate-900">${cfg.namaGuru || 'Ganjar Rachmawan A., M.Pd.'}</p>
+                                <p class="text-[8.5pt] text-slate-600">NIP/NBM. ${cfg.nipGuru || '-'}</p>
                             </div>
                         </div>
 
                         <div class="mt-6 text-center text-[9.5pt]">
-                            <p class="mb-12">Mengetahui,<br>Kepala Sekolah</p>
-                            <p class="font-bold underline">${cfg.namaKepsek || 'Hendro Sucipto, M.Pd.'}</p>
-                            <p class="text-[8.5pt]">NIP/NBM: ${cfg.nipKepsek || '-'}</p>
+                            <p class="font-semibold mb-14">Mengetahui,<br>Kepala Sekolah</p>
+                            <p class="font-bold underline text-slate-900">${cfg.namaKepsek || 'Hendro Sucipto, M.Pd.'}</p>
+                            <p class="text-[8.5pt] text-slate-600">NIP/NBM. ${cfg.nipKepsek || '-'}</p>
                         </div>
                     </div>
                 </div>
@@ -1904,7 +1915,9 @@
 
         function renderRaporSheet() {
             const container = document.getElementById('raporPrintContainer');
+            if(!container) return;
             container.innerHTML = '';
+
             const mode = document.getElementById('raporMode').value;
             const kelas = document.getElementById('raporSelectKelas').value;
 
@@ -1914,12 +1927,12 @@
                 if (siswa) {
                     container.innerHTML = generateSingleRaporHTML(siswa);
                 } else {
-                    container.innerHTML = `<div class="p-8 text-center text-slate-500">Pilih siswa untuk melihat pratinjau rapor.</div>`;
+                    container.innerHTML = '<div class="p-8 text-center text-slate-500">Tidak ada data siswa dipilih.</div>';
                 }
             } else {
                 const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
                 if (siswaInKelas.length === 0) {
-                    container.innerHTML = `<div class="p-8 text-center text-slate-500">Tidak ada data siswa di kelas ${kelas}.</div>`;
+                    container.innerHTML = '<div class="p-8 text-center text-slate-500">Tidak ada data siswa di kelas ini.</div>';
                     return;
                 }
                 let html = '';
@@ -1928,7 +1941,12 @@
                 });
                 container.innerHTML = html;
             }
+            lucide.createIcons();
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
