@@ -258,7 +258,7 @@
                     </div>
                     <div class="truncate">
                         <p class="text-xs font-semibold text-white truncate" id="sessionUserDisplay">Admin Ismuba</p>
-                        <p class="text-[10px] text-emerald-400 truncate" id="sessionTaDisplay">2026/2027 Ganjil</p>
+                        <p class="text-[10px] text-emerald-400 truncate" id="sessionTaDisplay">2026/2027 Semester Ganjil</p>
                     </div>
                 </div>
                 <button onclick="logout()" class="w-full flex items-center justify-center gap-2 py-2 px-3 bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white rounded-md text-xs font-medium transition">
@@ -947,7 +947,7 @@
 
         let state = {
             user: null,
-            tahunSemester: '2026/2027 - Semester Ganjil',
+            tahunSemester: '2026/2027 - Ganjil',
             pengaturan: JSON.parse(localStorage.getItem('ismuba_pengaturan')) || defaultPengaturan,
             mapel: JSON.parse(localStorage.getItem('ismuba_mapel')) || defaultMapel,
             siswa: JSON.parse(localStorage.getItem('ismuba_siswa')) || defaultSiswa,
@@ -1815,7 +1815,7 @@
 
                         <!-- IDENTITAS SISWA -->
                         <div class="grid grid-cols-2 gap-x-6 gap-y-1 bg-slate-50 p-2.5 rounded border border-slate-300 mb-4 text-[9.5pt]">
-                            <div class="flex"><span class="w-32 font-semibold text-slate-600">Nama Peserta Didik</span><span class="font-bold text-slate-900">: ${siswa.nama}</span></div>
+                            <div class="flex"><span class="w-32 font-semibold text-slate-600">Nama Siswa</span><span class="font-bold text-slate-900">: ${siswa.nama}</span></div>
                             <div class="flex"><span class="w-32 font-semibold text-slate-600">Kelas</span><span class="font-bold text-slate-900">: ${siswa.kelas}</span></div>
                             <div class="flex"><span class="w-32 font-semibold text-slate-600">NIS / NISN</span><span class="font-bold text-slate-900">: ${siswa.nis}</span></div>
                             <div class="flex"><span class="w-32 font-semibold text-slate-600">Semester / TA</span><span class="font-bold text-slate-900">: ${semesterText} / ${tahunAjaran}</span></div>
