@@ -112,13 +112,19 @@
         <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-md p-8 border border-emerald-100 relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-500 via-amber-400 to-emerald-600"></div>
             
-            <div class="text-center mb-8">
+            <div class="text-center mb-6">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-emerald-50/80 rounded-full mb-3 shadow-inner p-2 border border-emerald-200">
                     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitD0PNHyv9sXz7E8l4nRMtqccsnDUlcrxgX0kHCtec90z2Zf7Ydl0FxYqgD6-TUllq8hRnEGreUWb2O2aTxa6yTrpk42lvEEqVRW-Gtr-byrWW_kf5dXRDa0bCHXKPaZ1y-EB6Uw-78SsM8b6ZJmZLU94IVUHDiay8RHAe9YxdS7DuCYB3Zc3kYbnU_NNT/s1600/logo%20sekolah.png" alt="Logo Sekolah" class="w-full h-full object-contain">
                 </div>
                 <h1 class="text-2xl font-bold text-slate-800 tracking-tight">eRapor ISMUBA</h1>
                 <p class="text-xs font-semibold text-emerald-700 tracking-wider uppercase mt-1">Al-Islam, Kemuhammadiyahan & Bahasa Arab</p>
-                <p class="text-xs text-slate-500 mt-0.5">Muhadesta Smart School</p>
+                <p class="text-xs text-slate-500 mt-0.5">SMP Muhammadiyah 2 Depok Sleman</p>
+
+                <!-- Status Koneksi Google Sheets -->
+                <div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-full text-[11px] font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Database Google Sheets Aktif</span>
+                </div>
             </div>
 
             <form id="loginForm" class="space-y-4">
@@ -128,7 +134,7 @@
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i data-lucide="user" class="w-4 h-4"></i>
                         </span>
-                        <input type="text" id="loginUser" required placeholder="Masukkan username" value="admin"
+                        <input type="text" id="loginUser" required placeholder="Masukkan username atau NIP" value="admin"
                             class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition">
                     </div>
                 </div>
@@ -166,15 +172,15 @@
                     </div>
                 </div>
 
-                <button type="submit"
+                <button type="submit" id="btnLoginSubmit"
                     class="w-full mt-2 py-3 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-medium rounded-lg text-sm shadow-lg shadow-emerald-700/30 hover:shadow-emerald-800/40 transition duration-200 flex items-center justify-center gap-2">
-                    <i data-lucide="log-in" class="w-4 h-4"></i>
-                    <span>Masuk ke System eRapor</span>
+                    <i data-lucide="log-in" class="w-4 h-4" id="loginBtnIcon"></i>
+                    <span id="loginBtnText">Masuk ke System eRapor</span>
                 </button>
             </form>
 
             <div class="mt-6 text-center text-xs text-slate-400 border-t pt-4">
-                &copy; 2026 Developed by SMP Muhammadiyah 2 Depok Smart School
+                &copy; 2026 SMP Muhammadiyah 2 Depok Smart School
             </div>
         </div>
     </div>
@@ -253,7 +259,7 @@
 
             <div class="p-4 border-t border-slate-800 bg-slate-950/50">
                 <div class="flex items-center gap-3 mb-3">
-                    <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs">
+                    <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs" id="userAvatarBadge">
                         ADM
                     </div>
                     <div class="truncate">
@@ -296,7 +302,7 @@
                         <div class="relative z-10 max-w-2xl">
                             <h2 class="text-2xl font-bold mb-2">Selamat Datang di eRapor ISMUBA SMP</h2>
                             <p class="text-emerald-100 text-sm leading-relaxed">
-                                Sistem Penilaian Al-Islam, Kemuhammadiyahan, dan Bahasa Arab berbasis digital. Pengolahan Nilai, Tahfidz, Pembiasaan, dan Cetak Rapor Standar Kertas F4.
+                                Sistem Penilaian Al-Islam, Kemuhammadiyahan, dan Bahasa Arab berbasis Google Sheets. Pengolahan Nilai, Tahfidz, Pembiasaan, dan Cetak Rapor Standar Kertas F4.
                             </p>
                         </div>
                         <div class="absolute -right-6 -bottom-10 opacity-20 pointer-events-none">
@@ -400,6 +406,7 @@
                                 Petunjuk Singkat
                             </h3>
                             <ol class="text-xs text-slate-600 space-y-2.5 list-decimal pl-4 leading-relaxed">
+                                <li><strong>Akun Google Sheet:</strong> Username dan password dicek langsung ke spreadsheet Google.</li>
                                 <li><strong>Pengaturan Sekolah:</strong> Isi identitas Guru ISMUBA & Kepala Sekolah untuk tanda tangan Rapor.</li>
                                 <li><strong>Mapel & CP:</strong> Edit deskripsi Capaian Pembelajaran secara ringkas dan rapi.</li>
                                 <li><strong>Data Siswa:</strong> Kelola data siswa untuk Kelas 7A-7D, 8A-8D, dan 9A-9D.</li>
@@ -899,15 +906,16 @@
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- JavaScript Logic & Google Sheets Integration -->
     <script>
-        // Akun Login Pengguna
-        const validUsers = {
-            'admin': 'admin123',
-            'gurupai': 'yanu123',
-            'gurupai': 'ganjar123',
-            'gurupai': 'benih123',
-            'gurupai': 'badar123'
+        // Endpoint Google Apps Script Web App
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUivW2vF2GJygKezF8GaUNeg-cLs8FSUj3BiLfrL8GSzZUFCBVbD62ckE3dA0Som06/exec";
+
+        // Akun Cadangan Offline / Emergency Backup
+        const backupUsers = {
+            'admin': { pass: 'admin123', nama: 'Administrator ISMUBA', role: 'Superadmin' },
+            'guru.ismuba': { pass: 'yanu123', nama: 'Bpk. Yanu Priyanto, S.Pd.', role: 'Guru ISMUBA' },
+            'ganjar': { pass: 'ganjar123', nama: 'Ganjar Rahmawan Adiprana, M.Pd.', role: 'Guru ISMUBA' }
         };
 
         const defaultMapel = [
@@ -939,7 +947,7 @@
             alamatSekolah: 'Jl. Swadaya IV, Karangasem, Condongcatur, Depok, Sleman | Telp: (0274) 4462295 | Web: smpmuh2depok.sch.id',
             kotaCetak: 'Sleman',
             tanggalCetak: new Date().toISOString().split('T')[0],
-            namaGuru: 'Ganjar Rachmawan Adiprana, M.Pd.',
+            namaGuru: 'Ganjar Rahmawan Adiprana, M.Pd.',
             nipGuru: '1101704',
             namaKepsek: 'Hendro Sucipto, M.Pd.',
             nipKepsek: '1060557'
@@ -947,7 +955,8 @@
 
         let state = {
             user: null,
-            tahunSemester: '2026/2027 - Ganjil',
+            userData: null,
+            tahunSemester: '2026/2027 - Semester Ganjil',
             pengaturan: JSON.parse(localStorage.getItem('ismuba_pengaturan')) || defaultPengaturan,
             mapel: JSON.parse(localStorage.getItem('ismuba_mapel')) || defaultMapel,
             siswa: JSON.parse(localStorage.getItem('ismuba_siswa')) || defaultSiswa,
@@ -968,9 +977,10 @@
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            const bg = type === 'success' ? 'bg-emerald-800' : 'bg-red-800';
+            const bg = type === 'success' ? 'bg-emerald-800' : (type === 'warning' ? 'bg-amber-700' : 'bg-red-800');
             toast.className = `${bg} text-white px-4 py-3 rounded-lg shadow-xl text-xs font-medium flex items-center gap-2 transition-all duration-300 pointer-events-auto transform translate-y-2 opacity-0`;
-            toast.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-4 h-4"></i> <span>${message}</span>`;
+            const iconName = type === 'success' ? 'check-circle' : (type === 'warning' ? 'alert-triangle' : 'alert-circle');
+            toast.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4"></i> <span>${message}</span>`;
             container.appendChild(toast);
             lucide.createIcons();
 
@@ -981,53 +991,227 @@
             setTimeout(() => {
                 toast.classList.add('opacity-0');
                 setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            }, 3500);
         }
 
         function togglePasswordVisibility() {
             const pwdInput = document.getElementById('loginPassword');
-            const toggleIcon = document.getElementById('togglePasswordIcon');
-            if (!pwdInput || !toggleIcon) return;
-
+            if (!pwdInput) return;
+            
+            const parent = pwdInput.parentElement;
+            const toggleBtn = parent.querySelector('button');
+            
             if (pwdInput.type === 'password') {
                 pwdInput.type = 'text';
-                toggleIcon.setAttribute('data-lucide', 'eye-off');
+                toggleBtn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4"></i>';
             } else {
                 pwdInput.type = 'password';
-                toggleIcon.setAttribute('data-lucide', 'eye');
+                toggleBtn.innerHTML = '<i data-lucide="eye" class="w-4 h-4"></i>';
             }
+
             if (window.lucide) {
                 lucide.createIcons();
             }
         }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        /**
+         * Verifikasi Login Langsung ke Google Apps Script / Google Sheets
+         */
+        async function verifyLoginWithGoogleSheets(username, password) {
+            // Parameter universal untuk berbagai format pembacaan Apps Script
+            const queryParams = new URLSearchParams({
+                action: 'login',
+                username: username,
+                password: password,
+                user: username,
+                pass: password
+            }).toString();
+
+            // METODE 1: GET Request (Paling aman untuk CORS Google Apps Script)
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?${queryParams}`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return data;
+                }
+            } catch (errGet) {
+                console.warn('GET request tidak berhasil, mencoba metode POST...', errGet);
+            }
+
+            // METODE 2: POST Request dengan Content-Type text/plain (mencegah CORS Preflight block)
+            try {
+                const postResponse = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        action: 'login',
+                        username: username,
+                        password: password,
+                        user: username,
+                        pass: password
+                    })
+                });
+
+                if (postResponse.ok) {
+                    const data = await postResponse.json();
+                    return data;
+                }
+            } catch (errPost) {
+                console.warn('POST request gagal:', errPost);
+            }
+
+            throw new Error('Tidak dapat terhubung ke Google Apps Script.');
+        }
+
+        /**
+         * Parsing Respon dari Google Sheets
+         */
+        function parseAuthResponse(res, username, password) {
+            if (!res) return { success: false, message: 'Server tidak mengembalikan data.' };
+
+            // Format 1: Jika server mengembalikan array seluruh user dari sheet
+            if (Array.isArray(res)) {
+                const matched = res.find(item => {
+                    const u = (item.username || item.Username || item.user || item.NIP || item.NBM || '').toString().trim().toLowerCase();
+                    const p = (item.password || item.Password || item.pass || '').toString().trim();
+                    return u === username.toLowerCase() && p === password;
+                });
+
+                if (matched) {
+                    return {
+                        success: true,
+                        nama: matched.nama || matched.Nama || matched.name || username,
+                        role: matched.role || matched.Role || 'Guru ISMUBA',
+                        nip: matched.nip || matched.NIP || matched.nbm || matched.NBM || ''
+                    };
+                } else {
+                    return { success: false, message: 'Username atau password tidak ditemukan di Google Sheet.' };
+                }
+            }
+
+            // Format 2: Jika server mengembalikan objek { success: true/false, user: {...} }
+            if (res.success === true || res.status === 'success' || res.result === 'success') {
+                const uData = res.user || res.data || res;
+                return {
+                    success: true,
+                    nama: uData.nama || uData.Nama || uData.name || username,
+                    role: uData.role || uData.Role || 'Guru ISMUBA',
+                    nip: uData.nip || uData.NIP || uData.nbm || uData.NBM || ''
+                };
+            }
+
+            // Format 3: Respon penolakan dari server
+            if (res.success === false || res.status === 'error' || res.error) {
+                return {
+                    success: false,
+                    message: res.message || res.error || 'Username atau password tidak sesuai!'
+                };
+            }
+
+            return { success: false, message: 'Format data dari Google Sheets tidak dikenali.' };
+        }
+
+        // Event Submit Form Login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const u = document.getElementById('loginUser').value.trim();
             const p = document.getElementById('loginPassword').value;
             const ts = document.getElementById('loginTahunSemester').value;
 
-            if (!validUsers[u] || validUsers[u] !== p) {
-                showToast('Username atau password tidak sesuai!', 'error');
-                return;
+            const btnSubmit = document.getElementById('btnLoginSubmit');
+            const btnIcon = document.getElementById('loginBtnIcon');
+            const btnText = document.getElementById('loginBtnText');
+
+            // Set state tombol: Loading
+            btnSubmit.disabled = true;
+            btnSubmit.classList.add('opacity-80', 'cursor-not-allowed');
+            btnIcon.outerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin" id="loginBtnIcon"></i>';
+            btnText.innerText = 'Memverifikasi Google Sheets...';
+            lucide.createIcons();
+
+            let authSuccess = false;
+            let authenticatedUser = null;
+            let usedBackup = false;
+
+            try {
+                // 1. Coba verifikasi langsung ke Google Sheets Apps Script
+                const rawResponse = await verifyLoginWithGoogleSheets(u, p);
+                const parsed = parseAuthResponse(rawResponse, u, p);
+
+                if (parsed.success) {
+                    authSuccess = true;
+                    authenticatedUser = parsed;
+                } else {
+                    showToast(parsed.message, 'error');
+                }
+            } catch (networkError) {
+                console.warn('Gagal menghubungi Google Apps Script, memeriksa akun darurat lokal...', networkError);
+                
+                // 2. Fallback darurat jika koneksi Google Sheets gagal / belum dideploy publik
+                const local = backupUsers[u.toLowerCase()];
+                if (local && local.pass === p) {
+                    authSuccess = true;
+                    authenticatedUser = local;
+                    usedBackup = true;
+                } else {
+                    showToast('Gagal terhubung ke Google Sheets & kredensial lokal tidak cocok.', 'error');
+                }
+            } finally {
+                // Kembalikan tombol ke keadaan semula
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('opacity-80', 'cursor-not-allowed');
+                const currIcon = document.getElementById('loginBtnIcon');
+                if (currIcon) currIcon.outerHTML = '<i data-lucide="log-in" class="w-4 h-4" id="loginBtnIcon"></i>';
+                btnText.innerText = 'Masuk ke System eRapor';
+                lucide.createIcons();
             }
 
-            state.user = u;
-            state.tahunSemester = ts;
+            if (authSuccess && authenticatedUser) {
+                state.user = u;
+                state.userData = authenticatedUser;
+                state.tahunSemester = ts;
 
-            document.getElementById('sessionUserDisplay').innerText = u.toUpperCase();
-            document.getElementById('sessionTaDisplay').innerText = ts;
-            document.getElementById('activeSemesterBadge').innerText = ts;
+                // Tampilkan info sesi login
+                const displayName = authenticatedUser.nama || u.toUpperCase();
+                document.getElementById('sessionUserDisplay').innerText = displayName;
+                document.getElementById('sessionTaDisplay').innerText = ts;
+                document.getElementById('activeSemesterBadge').innerText = ts;
 
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('mainDashboard').classList.remove('hidden');
+                // Avatar inisial
+                const initials = displayName.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+                document.getElementById('userAvatarBadge').innerText = initials || 'USR';
 
-            initDashboardData();
-            showToast('Login berhasil. Selamat bertugas!', 'success');
+                // Jika login guru dan data pengaturan masih default, sesuaikan otomatis nama guru
+                if (authenticatedUser.nama && authenticatedUser.role !== 'Superadmin') {
+                    state.pengaturan.namaGuru = authenticatedUser.nama;
+                    if (authenticatedUser.nip) state.pengaturan.nipGuru = authenticatedUser.nip;
+                    saveDataToStorage();
+                }
+
+                // Masuk ke dashboard
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('mainDashboard').classList.remove('hidden');
+
+                initDashboardData();
+
+                if (usedBackup) {
+                    showToast(`Login darurat (offline) berhasil. Selamat bertugas, ${displayName}!`, 'warning');
+                } else {
+                    showToast(`Login Google Sheets berhasil! Selamat bertugas, ${displayName}`, 'success');
+                }
+            }
         });
 
         function logout() {
             state.user = null;
+            state.userData = null;
             document.getElementById('loginSection').classList.remove('hidden');
             document.getElementById('mainDashboard').classList.add('hidden');
             showToast('Berhasil keluar dari sistem.', 'success');
@@ -1256,6 +1440,7 @@
         }
 
         function openModalSiswa(siswaObj = null) {
+            document.getElementById('modalModalSiswaTitle', false);
             document.getElementById('modalSiswa').classList.remove('hidden');
             if(siswaObj) {
                 document.getElementById('modalSiswaTitle').innerText = 'Edit Data Siswa';
@@ -1849,37 +2034,43 @@
                             <table class="w-full border-collapse border border-slate-300 text-[9.5pt]">
                                 <thead>
                                     <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300">
-                                        <th class="p-2 border-r border-slate-300 w-44 text-center">Target / Surah Hafalan</th>
-                                        <th class="p-2 border-r border-slate-300 w-12 text-center">Nilai</th>
-                                        <th class="p-2 border-r border-slate-300 w-14 text-center">Predikat</th>
-                                        <th class="p-2 text-center">Catatan Pembimbing Tahfidz</th>
+                                        <th class="p-2 border-r border-slate-300 w-8 text-center">No</th>
+                                        <th class="p-2 border-r border-slate-300 text-center">Target / Surah Hafalan</th>
+                                        <th class="p-2 border-r border-slate-300 w-16 text-center">Nilai</th>
+                                        <th class="p-2 border-r border-slate-300 w-16 text-center">Predikat</th>
+                                        <th class="p-2 text-center">Deskripsi Catatan Pembimbing</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="border-b border-slate-300">
-                                        <td class="p-2 border-r border-slate-300 font-semibold text-slate-900">${tData.surah}</td>
+                                        <td class="p-2 text-center border-r border-slate-300 font-medium">1</td>
+                                        <td class="p-2 border-r border-slate-300 font-bold text-slate-900">${tData.surah}</td>
                                         <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${tData.score}</td>
                                         <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${tData.predikat}</td>
-                                        <td class="p-2 text-slate-800 text-[9.5pt]">${tData.catatan}</td>
+                                        <td class="p-2 leading-tight text-slate-800 text-[9.5pt]">${tData.catatan}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
-                        <!-- C. PEMBIASAAN & KARAKTER ISLAMI -->
+                        <!-- C. PEMBIASAAN KARAKTER -->
                         <div class="mb-4">
-                            <h4 class="font-bold text-slate-900 text-[10.5pt] mb-1.5">C. PEMBIASAAN & KARAKTER ISLAMI</h4>
+                            <h4 class="font-bold text-slate-900 text-[10.5pt] mb-1.5">C. PEMBIASAAN KARAKTER ISLAMI</h4>
                             <table class="w-full border-collapse border border-slate-300 text-[9.5pt]">
                                 <thead>
                                     <tr class="bg-slate-100 text-slate-900 font-bold border-b border-slate-300">
-                                        <th class="p-2 border-r border-slate-300 w-32 text-center">Predikat</th>
-                                        <th class="p-2 text-center">Catatan Perkembangan Karakter & Akhlak</th>
+                                        <th class="p-2 border-r border-slate-300 w-8 text-center">No</th>
+                                        <th class="p-2 border-r border-slate-300 w-44 text-center">Aspek Penilaian</th>
+                                        <th class="p-2 border-r border-slate-300 w-24 text-center">Predikat</th>
+                                        <th class="p-2 text-center">Deskripsi Catatan Perkembangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="border-b border-slate-300">
+                                        <td class="p-2 text-center border-r border-slate-300 font-medium">1</td>
+                                        <td class="p-2 border-r border-slate-300 font-bold text-slate-900">Sikap, Shalat Berjamaah & Akhlak</td>
                                         <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${pData.predikat}</td>
-                                        <td class="p-2 text-slate-800 text-[9.5pt]">${pData.deskripsi}</td>
+                                        <td class="p-2 leading-tight text-slate-800 text-[9.5pt]">${pData.deskripsi}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1887,26 +2078,16 @@
                     </div>
 
                     <!-- FOOTER TANDA TANGAN -->
-                    <div class="mt-6 pt-2">
-                        <div class="flex justify-between items-end text-[9.5pt]">
-                            <div class="text-center w-52">
-                                <p class="mb-1">Mengetahui,</p>
-                                <p class="font-semibold mb-14">Orang Tua / Wali Siswa</p>
-                                <p class="font-bold underline text-slate-900">( ............................................ )</p>
-                            </div>
-
-                            <div class="text-center w-60">
-                                <p class="mb-1">${cfg.kotaCetak || 'Sleman'}, ${formattedDate}</p>
-                                <p class="font-semibold mb-14">Guru ISMUBA / Wali Kelas</p>
-                                <p class="font-bold underline text-slate-900">${cfg.namaGuru || 'Ganjar Rachmawan A., M.Pd.'}</p>
-                                <p class="text-[8.5pt] text-slate-600">NIP/NBM. ${cfg.nipGuru || '-'}</p>
-                            </div>
+                    <div class="mt-8 flex justify-between text-[10pt] text-slate-900 pb-2">
+                        <div class="w-64 text-center">
+                            <p class="mb-16">Mengetahui,<br>Kepala Sekolah</p>
+                            <p class="font-bold underline">${cfg.namaKepsek}</p>
+                            <p>NBM/NIP. ${cfg.nipKepsek}</p>
                         </div>
-
-                        <div class="mt-6 text-center text-[9.5pt]">
-                            <p class="font-semibold mb-14">Mengetahui,<br>Kepala Sekolah</p>
-                            <p class="font-bold underline text-slate-900">${cfg.namaKepsek || 'Hendro Sucipto, M.Pd.'}</p>
-                            <p class="text-[8.5pt] text-slate-600">NIP/NBM. ${cfg.nipKepsek || '-'}</p>
+                        <div class="w-64 text-center">
+                            <p class="mb-16">${cfg.kotaCetak}, ${formattedDate}<br>Guru Mata Pelajaran ISMUBA</p>
+                            <p class="font-bold underline">${cfg.namaGuru}</p>
+                            <p>NBM/NIP. ${cfg.nipGuru}</p>
                         </div>
                     </div>
                 </div>
@@ -1915,35 +2096,28 @@
 
         function renderRaporSheet() {
             const container = document.getElementById('raporPrintContainer');
-            if(!container) return;
             container.innerHTML = '';
-
+            
             const mode = document.getElementById('raporMode').value;
             const kelas = document.getElementById('raporSelectKelas').value;
-
-            if (mode === 'single') {
+            
+            if(mode === 'single') {
                 const siswaId = document.getElementById('raporSelectSiswa').value;
-                const siswa = state.siswa.find(s => s.id === siswaId);
-                if (siswa) {
-                    container.innerHTML = generateSingleRaporHTML(siswa);
-                } else {
-                    container.innerHTML = '<div class="p-8 text-center text-slate-500">Tidak ada data siswa dipilih.</div>';
+                const siswaObj = state.siswa.find(s => s.id === siswaId);
+                if(siswaObj) {
+                    container.innerHTML = generateSingleRaporHTML(siswaObj);
                 }
             } else {
                 const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
-                if (siswaInKelas.length === 0) {
-                    container.innerHTML = '<div class="p-8 text-center text-slate-500">Tidak ada data siswa di kelas ini.</div>';
-                    return;
-                }
-                let html = '';
+                let allHtml = '';
                 siswaInKelas.forEach(s => {
-                    html += generateSingleRaporHTML(s);
+                    allHtml += generateSingleRaporHTML(s);
                 });
-                container.innerHTML = html;
+                container.innerHTML = allHtml;
             }
-            lucide.createIcons();
         }
 
+        // Initialize Icons
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
         });
