@@ -298,9 +298,9 @@
                 <div id="view-dashboard" class="tab-content hidden">
                     <div class="bg-gradient-to-r from-emerald-800 to-teal-700 rounded-2xl p-6 text-white shadow-lg mb-6 relative overflow-hidden">
                         <div class="relative z-10 max-w-2xl">
-                            <h2 class="text-2xl font-bold mb-2">Selamat Datang di eRapor ISMUBA SMP</h2>
+                            <h2 class="text-2xl font-bold mb-2">Selamat Datang di eRapor ISMUBA SMP Muhammadiyah 2 Depok Smart School</h2>
                             <p class="text-emerald-100 text-sm leading-relaxed">
-                                Sistem Penilaian Al-Islam, Kemuhammadiyahan, dan Bahasa Arab terintegrasi langsung dengan database Google Spreadsheet. Nilai, Siswa, Tahfidz, dan Pembiasaan tersimpan otomatis di Google Drive.
+                                Sistem Penilaian Pendidikan Al-Islam, Kemuhammadiyahan, dan Bahasa Arab yang terintegrasi.
                             </p>
                         </div>
                         <div class="absolute -right-6 -bottom-10 opacity-20 pointer-events-none">
@@ -346,7 +346,7 @@
                             <div>
                                 <p class="text-xs font-medium text-slate-500">Data Tahfidz & Pembiasaan</p>
                                 <p class="text-sm font-bold text-emerald-700 flex items-center gap-1 mt-1" id="statTahfidzStatus">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Siap Rekam ke Sheets
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Siap Rekam Data Base
                                 </p>
                             </div>
                         </div>
@@ -415,7 +415,7 @@
 
                 <div id="view-pengaturan" class="tab-content hidden">
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm mb-6">
-                        <h2 class="font-bold text-slate-800 text-lg">Pengaturan Identitas Sekolah & Pejabat</h2>
+                        <h2 class="font-bold text-slate-800 text-lg">Pengaturan Identitas Sekolah</h2>
                         <p class="text-xs text-slate-500">Kelola data sekolah, Guru ISMUBA, Kepala Sekolah, serta Tempat/Tanggal Cetak Rapor.</p>
                     </div>
 
@@ -580,7 +580,7 @@
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                             <div>
                                 <h2 class="font-bold text-slate-800 text-lg">Input & Olah Nilai ISMUBA</h2>
-                                <p class="text-xs text-slate-500">Predikat (A: 90-100, B: 75-89, C: 61-74, D: 0-60) terintegrasi ke Tab Sheet Nilai</p>
+                                <p class="text-xs text-slate-500">Predikat (A: 90-100, B: 75-89, C: 61-74, D: 0-60)</p>
                             </div>
                             <div class="flex flex-wrap items-center gap-2">
                                 <button onclick="exportNilaiExcel()" class="px-3 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-xs font-medium flex items-center gap-1.5">
@@ -638,7 +638,7 @@
                                         <th class="p-3 w-48">Nama Siswa</th>
                                         <th class="p-3 w-28 text-center">Nilai Akhir (0-100)</th>
                                         <th class="p-3 w-20 text-center">Predikat</th>
-                                        <th class="p-3">Otomatisasi Deskripsi Capaian Pembelajaran</th>
+                                        <th class="p-3">Deskripsi Capaian Pembelajaran</th>
                                     </tr>
                                 </thead>
                                 <tbody id="nilaiTableBody" class="divide-y divide-slate-200 text-xs">
@@ -653,7 +653,7 @@
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                             <div>
                                 <h2 class="font-bold text-slate-800 text-lg">Capaian Tahfidz Al-Qur'an</h2>
-                                <p class="text-xs text-slate-500">Kelola target surah, kelancaran hafalan, dan sinkronkan ke Google Sheet</p>
+                                <p class="text-xs text-slate-500">Kelola target surah dan kelancaran hafalan</p>
                             </div>
                             <div class="flex flex-wrap items-center gap-2">
                                 <button onclick="autoGenerateTahfidzByClass()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow">
@@ -1374,7 +1374,7 @@
 
             const titles = {
                 'dashboard': 'Dashboard Utama',
-                'pengaturan': 'Pengaturan Identitas Sekolah & Pejabat',
+                'pengaturan': 'Pengaturan Identitas Sekolah',
                 'mapel': 'Mata Pelajaran & Capaian Pembelajaran',
                 'siswa': 'Kelola Data Siswa',
                 'nilai': 'Input & Pengolahan Nilai ISMUBA',
@@ -1707,7 +1707,7 @@
 
                     const res = await sendToGoogleSheets('saveSiswa', { siswa: state.siswa });
                     if (res && res.status === 'success') {
-                        showToast(`Semua ${state.siswa.length} data siswa tersimpan di Google Sheets!`, 'success');
+                        showToast(`Semua ${state.siswa.length} data siswa tersimpan di Data Base!`, 'success');
                     }
                 } catch(err) {
                     showToast('Gagal membaca file Excel.', 'error');
