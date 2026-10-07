@@ -669,10 +669,16 @@
                                 <h2 class="font-bold text-slate-800 text-lg">Capaian Tahfidz Al-Qur'an</h2>
                                 <p class="text-xs text-slate-500">Kelola target surah, kelancaran, dan tajwid hafalan siswa</p>
                             </div>
-                            <button onclick="autoGenerateTahfidzByClass()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow">
-                                <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
-                                <span>Generate Otomatis Kelas Ini</span>
-                            </button>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button onclick="saveTahfidzToSheets()" id="btnSaveTahfidz" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow transition">
+                                    <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
+                                    <span id="txtSaveTahfidz">Simpan & Sync Sheets</span>
+                                </button>
+                                <button onclick="autoGenerateTahfidzByClass()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow transition">
+                                    <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+                                    <span>Generate Otomatis Kelas Ini</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="flex items-center gap-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
@@ -721,10 +727,16 @@
                                 <h2 class="font-bold text-slate-800 text-lg">Pembiasaan & Karakter Islami</h2>
                                 <p class="text-xs text-slate-500">Penilaian Sikap, Shalat Berjamaah, Tadarus, dan Kedisiplinan</p>
                             </div>
-                            <button onclick="autoGeneratePembiasaanByClass()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow">
-                                <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
-                                <span>Generate Otomatis Kelas Ini</span>
-                            </button>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button onclick="savePembiasaanToSheets()" id="btnSavePembiasaan" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow transition">
+                                    <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
+                                    <span id="txtSavePembiasaan">Simpan & Sync Sheets</span>
+                                </button>
+                                <button onclick="autoGeneratePembiasaanByClass()" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow transition">
+                                    <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+                                    <span>Generate Otomatis Kelas Ini</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="flex items-center gap-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
@@ -1101,421 +1113,14 @@
                         updatedInfo.push(`${Object.keys(res.nilai).length} Nilai`);
                     }
 
-                    saveDataToStorage();
-                    updateDashboardStats();
-                    renderSiswaTable();
-                    loadNilaiForm();
-                    renderRaporSheet();
-                    showToast(`Sinkronisasi sukses! Data termutakhir: ${updatedInfo.join(', ') || 'Semua up-to-date'}.`, 'success');
-                } else {
-                    showToast('Data lokal siap digunakan.', 'success');
-                }
-            } catch (err) {
-                console.error("Gagal sync:", err);
-                showToast('Mode offline aktif: memuat data lokal browser.', 'warning');
-            }
-        }
-
-        function manualSyncFromSheets() {
-            syncFromGoogleSheets();
-        }
-
-        async function pushSiswaToSheets() {
-            showToast('Mengirim seluruh data siswa ke Google Sheets...', 'warning');
-            const res = await sendToGoogleSheets('saveSiswa', { siswa: state.siswa });
-            if (res && res.status === 'success') {
-                showToast('Data Siswa berhasil disimpan di tab Siswa Google Sheet!', 'success');
-            } else {
-                showToast('Tersimpan di browser, gagal memperbarui Google Sheet.', 'warning');
-            }
-        }
-
-        async function verifyLoginWithGoogleSheets(username, password) {
-            const queryParams = new URLSearchParams({
-                action: 'login',
-                username: username,
-                password: password,
-                user: username,
-                pass: password
-            }).toString();
-
-            try {
-                const response = await fetch(`${APPS_SCRIPT_URL}?${queryParams}`, {
-                    method: 'GET',
-                    mode: 'cors'
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    return data;
-                }
-            } catch (errGet) {
-                console.warn('GET login gagal, mencoba POST...', errGet);
-            }
-
-            try {
-                const postResponse = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: 'login',
-                        username: username,
-                        password: password,
-                        user: username,
-                        pass: password
-                    })
-                });
-
-                if (postResponse.ok) {
-                    const data = await postResponse.json();
-                    return data;
-                }
-            } catch (errPost) {
-                console.warn('POST login gagal:', errPost);
-            }
-
-            throw new Error('Tidak dapat terhubung ke Google Apps Script.');
-        }
-
-        function parseAuthResponse(res, username, password) {
-            if (!res) return { success: false, message: 'Server tidak mengembalikan data.' };
-
-            if (Array.isArray(res)) {
-                const matched = res.find(item => {
-                    const u = (item.username || item.Username || item.user || item.NIP || item.NBM || '').toString().trim().toLowerCase();
-                    const p = (item.password || item.Password || item.pass || '').toString().trim();
-                    return u === username.toLowerCase() && p === password;
-                });
-
-                if (matched) {
-                    return {
-                        success: true,
-                        nama: matched.nama || matched.Nama || matched.name || username,
-                        role: matched.role || matched.Role || 'Guru ISMUBA',
-                        nip: matched.nip || matched.NIP || matched.nbm || matched.NBM || ''
-                    };
-                } else {
-                    return { success: false, message: 'Username atau password tidak ditemukan di Google Sheet.' };
-                }
-            }
-
-            if (res.success === true || res.status === 'success' || res.result === 'success') {
-                const uData = res.user || res.data || res;
-                return {
-                    success: true,
-                    nama: uData.nama || uData.Nama || uData.name || username,
-                    role: uData.role || uData.Role || 'Guru ISMUBA',
-                    nip: uData.nip || uData.NIP || uData.nbm || uData.NBM || ''
-                };
-            }
-
-            if (res.success === false || res.status === 'error' || res.error) {
-                return {
-                    success: false,
-                    message: res.message || res.error || 'Username atau password tidak sesuai!'
-                };
-            }
-
-            return { success: false, message: 'Format data Google Sheets tidak dikenali.' };
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const u = document.getElementById('loginUser').value.trim();
-            const p = document.getElementById('loginPassword').value;
-            const ts = document.getElementById('loginTahunSemester').value;
-
-            const btnSubmit = document.getElementById('btnLoginSubmit');
-            const btnIcon = document.getElementById('loginBtnIcon');
-            const btnText = document.getElementById('loginBtnText');
-
-            btnSubmit.disabled = true;
-            btnSubmit.classList.add('opacity-80', 'cursor-not-allowed');
-            btnIcon.outerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin" id="loginBtnIcon"></i>';
-            btnText.innerText = 'Memverifikasi Google Sheets...';
-            lucide.createIcons();
-
-            let authSuccess = false;
-            let authenticatedUser = null;
-            let usedBackup = false;
-
-            try {
-                const rawResponse = await verifyLoginWithGoogleSheets(u, p);
-                const parsed = parseAuthResponse(rawResponse, u, p);
-
-                if (parsed.success) {
-                    authSuccess = true;
-                    authenticatedUser = parsed;
-                } else {
-                    showToast(parsed.message, 'error');
-                }
-            } catch (networkError) {
-                console.warn('Gagal menghubungi Apps Script, memeriksa akun cadangan lokal...', networkError);
-                const local = backupUsers[u.toLowerCase()];
-                if (local && local.pass === p) {
-                    authSuccess = true;
-                    authenticatedUser = local;
-                    usedBackup = true;
-                } else {
-                    showToast('Gagal terhubung ke Google Sheets & kredensial tidak cocok.', 'error');
-                }
-            } finally {
-                btnSubmit.disabled = false;
-                btnSubmit.classList.remove('opacity-80', 'cursor-not-allowed');
-                const currIcon = document.getElementById('loginBtnIcon');
-                if (currIcon) currIcon.outerHTML = '<i data-lucide="log-in" class="w-4 h-4" id="loginBtnIcon"></i>';
-                btnText.innerText = 'Masuk ke System eRapor';
-                lucide.createIcons();
-            }
-
-            if (authSuccess && authenticatedUser) {
-                state.user = u;
-                state.userData = authenticatedUser;
-                state.tahunSemester = ts;
-
-                const displayName = authenticatedUser.nama || u.toUpperCase();
-                document.getElementById('sessionUserDisplay').innerText = displayName;
-                document.getElementById('sessionTaDisplay').innerText = ts;
-                document.getElementById('activeSemesterBadge').innerText = ts;
-
-                const initials = displayName.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-                document.getElementById('userAvatarBadge').innerText = initials || 'USR';
-
-                if (authenticatedUser.nama && authenticatedUser.role !== 'Superadmin') {
-                    state.pengaturan.namaGuru = authenticatedUser.nama;
-                    if (authenticatedUser.nip) state.pengaturan.nipGuru = authenticatedUser.nip;
-                    saveDataToStorage();
-                }
-
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('mainDashboard').classList.remove('hidden');
-
-                initDashboardData();
-
-                if (usedBackup) {
-                    showToast(`Login offline berhasil. Selamat bertugas, ${displayName}!`, 'warning');
-                } else {
-                    showToast(`Login Google Sheets berhasil! Selamat bertugas, ${displayName}`, 'success');
-                }
-
-                syncFromGoogleSheets();
-            }
-        });
-
-        function logout() {
-            state.user = null;
-            state.userData = null;
-            document.getElementById('loginSection').classList.remove('hidden');
-            document.getElementById('mainDashboard').classList.add('hidden');
-            showToast('Berhasil keluar dari sistem.', 'success');
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-700', 'text-white');
-                btn.classList.add('text-slate-300');
-            });
-
-            const activeView = document.getElementById(`view-${tabId}`);
-            if(activeView) activeView.classList.remove('hidden');
-
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            if(activeNav) {
-                activeNav.classList.add('bg-emerald-700', 'text-white');
-                activeNav.classList.remove('text-slate-300');
-            }
-
-            const titles = {
-                'dashboard': 'Dashboard Utama',
-                'pengaturan': 'Pengaturan Identitas Sekolah & Pejabat',
-                'mapel': 'Mata Pelajaran & Capaian Pembelajaran',
-                'siswa': 'Kelola Data Siswa',
-                'nilai': 'Input & Pengolahan Nilai ISMUBA',
-                'tahfidz': 'Capaian Tahfidz Al-Qur\'an',
-                'pembiasaan': 'Penilaian Pembiasaan Karakter',
-                'rapor': 'Pratinjau & Cetak Rapor (F4)'
-            };
-            document.getElementById('pageTitle').innerText = titles[tabId] || 'eRapor ISMUBA';
-
-            if(tabId === 'dashboard') updateDashboardStats();
-            if(tabId === 'pengaturan') loadPengaturanForm();
-            if(tabId === 'mapel') renderMapelTable();
-            if(tabId === 'siswa') renderSiswaTable();
-            if(tabId === 'nilai') populateMapelDropdownNilai();
-            if(tabId === 'tahfidz') loadTahfidzTable();
-            if(tabId === 'pembiasaan') loadPembiasaanTable();
-            if(tabId === 'rapor') updateRaporSiswaList();
-        }
-
-        // Mobile Sidebar Toggles
-        document.getElementById('openMobileSidebarBtn')?.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.remove('-translate-x-full');
-        });
-        document.getElementById('toggleSidebarBtn')?.addEventListener('click', () => {
-            document.getElementById('sidebar').classList.add('-translate-x-full');
-        });
-
-        function initDashboardData() {
-            updateDashboardStats();
-            switchTab('rapor');
-        }
-
-        function loadPengaturanForm() {
-            document.getElementById('cfgNamaSekolah').value = state.pengaturan.namaSekolah || '';
-            document.getElementById('cfgAlamatSekolah').value = state.pengaturan.alamatSekolah || '';
-            document.getElementById('cfgKotaCetak').value = state.pengaturan.kotaCetak || 'Sleman';
-            document.getElementById('cfgTanggalCetak').value = state.pengaturan.tanggalCetak || '2026-10-07';
-            document.getElementById('cfgNamaGuru').value = state.pengaturan.namaGuru || '';
-            document.getElementById('cfgNipGuru').value = state.pengaturan.nipGuru || '';
-            document.getElementById('cfgNamaKepsek').value = state.pengaturan.namaKepsek || '';
-            document.getElementById('cfgNipKepsek').value = state.pengaturan.nipKepsek || '';
-        }
-
-        function savePengaturan(e) {
-            e.preventDefault();
-            state.pengaturan = {
-                namaSekolah: document.getElementById('cfgNamaSekolah').value,
-                alamatSekolah: document.getElementById('cfgAlamatSekolah').value,
-                kotaCetak: document.getElementById('cfgKotaCetak').value,
-                tanggalCetak: document.getElementById('cfgTanggalCetak').value,
-                namaGuru: document.getElementById('cfgNamaGuru').value,
-                nipGuru: document.getElementById('cfgNipGuru').value,
-                namaKepsek: document.getElementById('cfgNamaKepsek').value,
-                nipKepsek: document.getElementById('cfgNipKepsek').value
-            };
-
-            saveDataToStorage();
-            showToast('Pengaturan Sekolah berhasil disimpan.');
-        }
-
-        function updateDashboardStats() {
-            document.getElementById('statTotalSiswa').innerText = state.siswa.length;
-            document.getElementById('statTotalMapel').innerText = state.mapel.length;
-
-            let totalNilaiEntries = 0;
-            Object.keys(state.nilai).forEach(k => {
-                if(state.nilai[k] !== undefined && state.nilai[k] !== "") totalNilaiEntries++;
-            });
-            document.getElementById('statNilaiEntry').innerText = totalNilaiEntries;
-
-            const tbody = document.getElementById('dashboardMapelTable');
-            if (tbody) {
-                tbody.innerHTML = '';
-                state.mapel.forEach(m => {
-                    const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-50';
-                    tr.innerHTML = `
-                        <td class="p-2.5 font-bold text-emerald-800">${m.kode}</td>
-                        <td class="p-2.5 font-medium">${m.nama}</td>
-                        <td class="p-2.5 text-slate-500">${m.kelas}</td>
-                        <td class="p-2.5"><span class="px-2 py-0.5 bg-slate-100 font-semibold rounded text-slate-700">${m.kktp}</span></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-        }
-
-        function renderMapelTable() {
-            const tbody = document.getElementById('mapelTableBody');
-            tbody.innerHTML = '';
-            state.mapel.forEach(m => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50';
-                tr.innerHTML = `
-                    <td class="p-3 font-semibold text-emerald-700">${m.kode}</td>
-                    <td class="p-3 font-bold">${m.nama}</td>
-                    <td class="p-3">${m.kelas}</td>
-                    <td class="p-3"><span class="px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded font-bold">${m.kktp}</span></td>
-                    <td class="p-3 text-slate-600 max-w-md">${m.cp}</td>
-                    <td class="p-3 text-center">
-                        <div class="flex items-center justify-center gap-1">
-                            <button onclick="editMapel('${m.id}')" class="p-1.5 text-amber-600 hover:bg-amber-50 rounded" title="Edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                            <button onclick="deleteMapel('${m.id}')" class="p-1.5 text-red-600 hover:bg-red-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            lucide.createIcons();
-        }
-
-        function openModalMapel(mapelObj = null) {
-            document.getElementById('modalMapel').classList.remove('hidden');
-            if(mapelObj) {
-                document.getElementById('modalMapelTitle').innerText = 'Edit Mata Pelajaran & CP';
-                document.getElementById('mapelEditId').value = mapelObj.id;
-                document.getElementById('mapelKode').value = mapelObj.kode;
-                document.getElementById('mapelNama').value = mapelObj.nama;
-                document.getElementById('mapelKelas').value = mapelObj.kelas;
-                document.getElementById('mapelKktp').value = mapelObj.kktp;
-                document.getElementById('mapelCp').value = mapelObj.cp;
-            } else {
-                document.getElementById('modalMapelTitle').innerText = 'Tambah Mata Pelajaran ISMUBA';
-                document.getElementById('formMapel').reset();
-                document.getElementById('mapelEditId').value = '';
-            }
-        }
-
-        function closeModalMapel() {
-            document.getElementById('modalMapel').classList.add('hidden');
-        }
-
-        function saveMapel(e) {
-            e.preventDefault();
-            const id = document.getElementById('mapelEditId').value;
-            const kode = document.getElementById('mapelKode').value;
-            const nama = document.getElementById('mapelNama').value;
-            showToast('Data Siswa berhasil disimpan.');
-        }
-
-        async function sendToGoogleSheets(actionName, payload = {}) {
-            try {
-                const response = await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8'
-                    },
-                    body: JSON.stringify({
-                        action: actionName,
-                        ...payload
-                    })
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    return data;
-                }
-            } catch (err) {
-                console.warn('Gagal POST data ke Google Sheets:', err);
-            }
-            return null;
-        }
-
-        async function syncFromGoogleSheets() {
-            try {
-                showToast('Menghubungkan & menyinkronkan data Google Sheets...', 'warning');
-                
-                const syncIcon = document.getElementById('sidebarSyncIcon');
-                if (syncIcon) syncIcon.classList.add('animate-spin');
-
-                const res = await sendToGoogleSheets('syncAll');
-                
-                if (syncIcon) syncIcon.classList.remove('animate-spin');
-
-                if (res && res.status === 'success') {
-                    let updatedInfo = [];
-
-                    if (Array.isArray(res.siswa) && res.siswa.length > 0) {
-                        state.siswa = res.siswa;
-                        updatedInfo.push(`${res.siswa.length} Siswa`);
+                    if (res.tahfidz && Object.keys(res.tahfidz).length > 0) {
+                        state.tahfidz = Object.assign({}, state.tahfidz, res.tahfidz);
+                        updatedInfo.push(`${Object.keys(res.tahfidz).length} Tahfidz`);
                     }
 
-                    if (res.nilai && Object.keys(res.nilai).length > 0) {
-                        state.nilai = Object.assign({}, state.nilai, res.nilai);
-                        updatedInfo.push(`${Object.keys(res.nilai).length} Nilai`);
+                    if (res.pembiasaan && Object.keys(res.pembiasaan).length > 0) {
+                        state.pembiasaan = Object.assign({}, state.pembiasaan, res.pembiasaan);
+                        updatedInfo.push(`${Object.keys(res.pembiasaan).length} Pembiasaan`);
                     }
 
                     saveDataToStorage();
@@ -1952,6 +1557,33 @@
             loadTahfidzTable();
         }
 
+        async function saveTahfidzToSheets() {
+            const btn = document.getElementById('btnSaveTahfidz');
+            const txt = document.getElementById('txtSaveTahfidz');
+            if (btn && txt) {
+                btn.disabled = true;
+                txt.innerText = 'Mengupload ke Sheets...';
+            }
+            showToast('Menyimpan data Tahfidz ke Google Sheets...', 'warning');
+
+            try {
+                const res = await sendToGoogleSheets('saveTahfidz', { tahfidz: state.tahfidz });
+                if (res && res.status === 'success') {
+                    showToast('Data Tahfidz berhasil disimpan ke Google Sheets!', 'success');
+                } else {
+                    showToast('Tersimpan di browser, periksa koneksi Google Sheets.', 'warning');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Tersimpan di browser lokal.', 'error');
+            } finally {
+                if (btn && txt) {
+                    btn.disabled = false;
+                    txt.innerText = 'Simpan & Sync Sheets';
+                }
+            }
+        }
+
         function autoGenerateTahfidzByClass() {
             const kelas = document.getElementById('tahfidzSelectKelas').value;
             const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
@@ -1968,7 +1600,7 @@
 
             saveDataToStorage();
             loadTahfidzTable();
-            showToast(`Data Tahfidz kelas ${kelas} berhasil di-generate otomatis.`);
+            showToast(`Data Tahfidz kelas ${kelas} berhasil di-generate. Klik "Simpan & Sync Sheets" untuk mengunggah.`);
         }
 
         function loadPembiasaanTable() {
@@ -2019,6 +1651,33 @@
             saveDataToStorage();
         }
 
+        async function savePembiasaanToSheets() {
+            const btn = document.getElementById('btnSavePembiasaan');
+            const txt = document.getElementById('txtSavePembiasaan');
+            if (btn && txt) {
+                btn.disabled = true;
+                txt.innerText = 'Mengupload ke Sheets...';
+            }
+            showToast('Menyimpan data Pembiasaan Karakter ke Google Sheets...', 'warning');
+
+            try {
+                const res = await sendToGoogleSheets('savePembiasaan', { pembiasaan: state.pembiasaan });
+                if (res && res.status === 'success') {
+                    showToast('Data Pembiasaan Karakter berhasil disimpan ke Google Sheets!', 'success');
+                } else {
+                    showToast('Tersimpan di browser, periksa koneksi Google Sheets.', 'warning');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Tersimpan di browser lokal.', 'error');
+            } finally {
+                if (btn && txt) {
+                    btn.disabled = false;
+                    txt.innerText = 'Simpan & Sync Sheets';
+                }
+            }
+        }
+
         function autoGeneratePembiasaanByClass() {
             const kelas = document.getElementById('pembiasaanSelectKelas').value;
             const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
@@ -2033,7 +1692,7 @@
 
             saveDataToStorage();
             loadPembiasaanTable();
-            showToast(`Data Pembiasaan kelas ${kelas} di-generate otomatis.`);
+            showToast(`Data Pembiasaan kelas ${kelas} di-generate. Klik "Simpan & Sync Sheets" untuk mengunggah.`);
         }
 
         function toggleRaporMode() {
