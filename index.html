@@ -259,10 +259,9 @@
             </div>
 
             <div class="p-4 border-t border-slate-800 bg-slate-950/50 space-y-3">
-                <!-- Tombol Tarik Data Lengkap Google Sheets -->
                 <button onclick="manualSyncFromSheets()" class="w-full flex items-center justify-center gap-2 py-2 px-3 bg-emerald-700/30 hover:bg-emerald-700 text-emerald-300 hover:text-white rounded-md text-xs font-semibold transition border border-emerald-600/40">
                     <i data-lucide="refresh-cw" class="w-3.5 h-3.5" id="sidebarSyncIcon"></i>
-                    <span>Tarik Data Google Sheets</span>
+                    <span>Tarik Data</span>
                 </button>
 
                 <div class="flex items-center gap-3 pt-1">
@@ -281,10 +280,8 @@
             </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="flex-1 flex flex-col min-w-0 bg-slate-50 overflow-y-auto">
             
-            <!-- Top Bar Header -->
             <header class="no-print bg-white border-b border-slate-200 sticky top-0 z-20 px-4 py-3 flex items-center justify-between shadow-sm">
                 <div class="flex items-center gap-3">
                     <button id="openMobileSidebarBtn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
@@ -365,7 +362,6 @@
                         </div>
                     </div>
 
-                    <!-- Kriteria Predikat Banner Info -->
                     <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl mb-6">
                         <h4 class="font-bold text-emerald-900 text-sm mb-2 flex items-center gap-2">
                             <i data-lucide="award" class="w-4 h-4 text-emerald-700"></i>
@@ -419,9 +415,9 @@
                                 Petunjuk Integrasi Cloud
                             </h3>
                             <ol class="text-xs text-slate-600 space-y-2.5 list-decimal pl-4 leading-relaxed">
-                                <li><strong>Tahfidz & Pembiasaan Otomatis:</strong> Di tab <em>Data Tahfidz</em> dan <em>Pembiasaan Karakter</em> kini telah tersedia tombol <strong>"Simpan & Sync Google Sheets"</strong> untuk merekam data ke sheet masing-masing.</li>
+                                <li><strong>Tahfidz & Pembiasaan Otomatis:</strong> Di tab <em>Data Tahfidz</em> dan <em>Pembiasaan Karakter</em> tersedia tombol <strong>"Simpan & Sync Google Sheets"</strong> untuk merekam data ke sheet masing-masing.</li>
                                 <li><strong>Otomatis Simpan Nilai:</strong> Setiap kali tombol Simpan di tab Nilai ditekan, data terekam di tab <code>Nilai</code> spreadsheet.</li>
-                                <li><strong>Tarik Data:</strong> Tombol <em>Tarik Data Google Sheets</em> di sidebar akan menyelaraskan Siswa, Nilai, Tahfidz, dan Pembiasaan sekaligus.</li>
+                                <li><strong>Hapus Cepat Siswa:</strong> Cukup klik icon hapus pada tabel siswa, data langsung dihapus seketika tanpa dialog konfirmasi.</li>
                             </ol>
                         </div>
                     </div>
@@ -532,7 +528,7 @@
                             <div class="flex flex-wrap items-center gap-2">
                                 <button onclick="pushSiswaToSheets()" class="px-3 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-medium flex items-center gap-1.5 shadow">
                                     <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
-                                    <span>Kirim ke Sheets</span>
+                                    <span>Simpan</span>
                                 </button>
                                 <button onclick="exportSiswaExcel()" class="px-3 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-xs font-medium flex items-center gap-1.5">
                                     <i data-lucide="download" class="w-3.5 h-3.5"></i>
@@ -637,7 +633,7 @@
                             <div class="flex items-end">
                                 <button onclick="saveAllNilai()" id="btnSaveNilaiMain" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded shadow flex items-center justify-center gap-1.5 transition">
                                     <i data-lucide="cloud-upload" class="w-4 h-4"></i>
-                                    <span id="txtSaveNilai">Simpan & Sync Google Sheets</span>
+                                    <span id="txtSaveNilai">Simpan Nilai</span>
                                 </button>
                             </div>
                         </div>
@@ -662,7 +658,6 @@
                     </div>
                 </div>
 
-                <!-- TAB TAHFIDZ DENGAN SYNC GOOGLE SHEETS -->
                 <div id="view-tahfidz" class="tab-content hidden">
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm mb-4 space-y-3">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -677,7 +672,7 @@
                                 </button>
                                 <button onclick="saveAllTahfidz()" id="btnSaveTahfidzMain" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow transition">
                                     <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
-                                    <span id="txtSaveTahfidz">Simpan & Sync Google Sheets</span>
+                                    <span id="txtSaveTahfidz">Simpan Nilai</span>
                                 </button>
                             </div>
                         </div>
@@ -721,7 +716,6 @@
                     </div>
                 </div>
 
-                <!-- TAB PEMBIASAAN DENGAN SYNC GOOGLE SHEETS -->
                 <div id="view-pembiasaan" class="tab-content hidden">
                     <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm mb-4 space-y-3">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -736,7 +730,7 @@
                                 </button>
                                 <button onclick="saveAllPembiasaan()" id="btnSavePembiasaanMain" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium rounded-lg flex items-center gap-1.5 shadow transition">
                                     <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
-                                    <span id="txtSavePembiasaan">Simpan & Sync Google Sheets</span>
+                                    <span id="txtSavePembiasaan">Simpan Nilai</span>
                                 </button>
                             </div>
                         </div>
@@ -844,7 +838,6 @@
         </main>
     </div>
 
-    <!-- Modal Edit / Tambah Mapel -->
     <div id="modalMapel" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-6 space-y-4">
             <div class="flex justify-between items-center border-b pb-3">
@@ -888,7 +881,6 @@
         </div>
     </div>
 
-    <!-- Modal Edit / Tambah Siswa -->
     <div id="modalSiswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 space-y-4">
             <div class="flex justify-between items-center border-b pb-3">
@@ -931,10 +923,8 @@
     </div>
 
     <script>
-        // Endpoint Google Apps Script Web App (Tautkan URL deployment Anda di sini jika di-deploy ulang)
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxne7FiFp1IoqyOT8dgmHg5OVdY0Pw0Hzkq0hr0Q9wty_7XkIWE9k6CH-Bmwi1TJ9Az/exec";
 
-        // Akun Cadangan Offline
         const backupUsers = {
             'admin': { pass: 'admin123', nama: 'Administrator ISMUBA', role: 'Superadmin' },
             'guru.ismuba': { pass: 'yanu123', nama: 'Bpk. Yanu Priyanto, S.Pd.', role: 'Guru ISMUBA' },
@@ -1012,6 +1002,7 @@
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
+            if(!container) return;
             const toast = document.createElement('div');
             const bg = type === 'success' ? 'bg-emerald-800' : (type === 'warning' ? 'bg-amber-700' : 'bg-red-800');
             toast.className = `${bg} text-white px-4 py-3 rounded-lg shadow-xl text-xs font-medium flex items-center gap-2 transition-all duration-300 pointer-events-auto transform translate-y-2 opacity-0`;
@@ -1027,7 +1018,7 @@
             setTimeout(() => {
                 toast.classList.add('opacity-0');
                 setTimeout(() => toast.remove(), 300);
-            }, 4000);
+            }, 3000);
         }
 
         function togglePasswordVisibility() {
@@ -1076,8 +1067,6 @@
 
         async function syncFromGoogleSheets() {
             try {
-                showToast('Menghubungkan & menyinkronkan seluruh database Google Sheets...', 'warning');
-                
                 const syncIcon = document.getElementById('sidebarSyncIcon');
                 if (syncIcon) syncIcon.classList.add('animate-spin');
 
@@ -1115,13 +1104,10 @@
                     loadTahfidzTable();
                     loadPembiasaanTable();
                     renderRaporSheet();
-                    showToast(`Sinkronisasi sukses! Data termutakhir: ${updatedInfo.join(', ') || 'Semua up-to-date'}.`, 'success');
-                } else {
-                    showToast('Data lokal siap digunakan.', 'success');
+                    showToast(`Sinkronisasi selesai: ${updatedInfo.join(', ') || 'Data up-to-date'}.`, 'success');
                 }
             } catch (err) {
                 console.error("Gagal sync:", err);
-                showToast('Mode offline aktif: memuat data lokal browser.', 'warning');
             }
         }
 
@@ -1135,11 +1121,10 @@
             if (res && res.status === 'success') {
                 showToast('Data Siswa berhasil disimpan di tab Siswa Google Sheet!', 'success');
             } else {
-                showToast('Tersimpan di browser, gagal memperbarui Google Sheet.', 'warning');
+                showToast('Tersimpan di browser lokal.', 'warning');
             }
         }
 
-        // ================= TAHFIDZ SYNC METHOD ================= //
         async function saveAllTahfidz() {
             const btn = document.getElementById('btnSaveTahfidzMain');
             const txt = document.getElementById('txtSaveTahfidz');
@@ -1149,7 +1134,6 @@
                 btn.disabled = true;
                 txt.innerText = 'Mengupload ke Google Sheets...';
             }
-            showToast('Merekam data Tahfidz ke tab Tahfidz Google Sheets...', 'warning');
 
             try {
                 const res = await sendToGoogleSheets('saveTahfidz', {
@@ -1158,13 +1142,13 @@
                 });
 
                 if (res && res.status === 'success') {
-                    showToast('Sukses! Data Tahfidz berhasil terekam otomatis di Google Sheets.', 'success');
+                    showToast('Sukses! Data Tahfidz terekam di Google Sheets.', 'success');
                 } else {
                     showToast('Tersimpan di browser lokal.', 'warning');
                 }
             } catch (err) {
                 console.error(err);
-                showToast('Gagal menghubungi Google Apps Script.', 'error');
+                showToast('Gagal terhubung ke Google Apps Script.', 'error');
             } finally {
                 if (btn && txt) {
                     btn.disabled = false;
@@ -1173,7 +1157,6 @@
             }
         }
 
-        // ================= PEMBIASAAN SYNC METHOD ================= //
         async function saveAllPembiasaan() {
             const btn = document.getElementById('btnSavePembiasaanMain');
             const txt = document.getElementById('txtSavePembiasaan');
@@ -1183,7 +1166,6 @@
                 btn.disabled = true;
                 txt.innerText = 'Mengupload ke Google Sheets...';
             }
-            showToast('Merekam data Karakter ke tab Pembiasaan Google Sheets...', 'warning');
 
             try {
                 const res = await sendToGoogleSheets('savePembiasaan', {
@@ -1192,13 +1174,13 @@
                 });
 
                 if (res && res.status === 'success') {
-                    showToast('Sukses! Data Pembiasaan berhasil terekam otomatis di Google Sheets.', 'success');
+                    showToast('Sukses! Data Pembiasaan terekam di Google Sheets.', 'success');
                 } else {
                     showToast('Tersimpan di browser lokal.', 'warning');
                 }
             } catch (err) {
                 console.error(err);
-                showToast('Gagal menghubungi Google Apps Script.', 'error');
+                showToast('Gagal terhubung ke Google Apps Script.', 'error');
             } finally {
                 if (btn && txt) {
                     btn.disabled = false;
@@ -1328,7 +1310,7 @@
                     showToast(parsed.message, 'error');
                 }
             } catch (networkError) {
-                console.warn('Gagal menghubungi Apps Script, memeriksa akun cadangan lokal...', networkError);
+                console.warn('Gagal Apps Script, cek akun lokal...', networkError);
                 const local = backupUsers[u.toLowerCase()];
                 if (local && local.pass === p) {
                     authSuccess = true;
@@ -1371,9 +1353,9 @@
                 initDashboardData();
 
                 if (usedBackup) {
-                    showToast(`Login offline berhasil. Selamat bertugas, ${displayName}!`, 'warning');
+                    showToast(`Login offline berhasil. Selamat datang, ${displayName}!`, 'warning');
                 } else {
-                    showToast(`Login Google Sheets berhasil! Selamat bertugas, ${displayName}`, 'success');
+                    showToast(`Login Google Sheets berhasil! Selamat datang, ${displayName}`, 'success');
                 }
 
                 syncFromGoogleSheets();
@@ -1573,13 +1555,11 @@
         }
 
         function deleteMapel(id) {
-            if(confirm('Yakin ingin menghapus mata pelajaran ini?')) {
-                state.mapel = state.mapel.filter(x => x.id !== id);
-                saveDataToStorage();
-                renderMapelTable();
-                updateDashboardStats();
-                showToast('Mata Pelajaran berhasil dihapus.');
-            }
+            state.mapel = state.mapel.filter(x => x.id !== id);
+            saveDataToStorage();
+            renderMapelTable();
+            updateDashboardStats();
+            showToast('Mata Pelajaran berhasil dihapus.');
         }
 
         function renderSiswaTable() {
@@ -1596,7 +1576,7 @@
 
             filtered.forEach((s, idx) => {
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-50';
+                tr.className = 'hover:bg-slate-50 transition-colors duration-150';
                 tr.innerHTML = `
                     <td class="p-3 text-center text-slate-500">${idx + 1}</td>
                     <td class="p-3 font-semibold text-slate-700">${s.nis}</td>
@@ -1605,7 +1585,7 @@
                     <td class="p-3 text-center">
                         <div class="flex items-center justify-center gap-1">
                             <button onclick="editSiswa('${s.id}')" class="p-1.5 text-amber-600 hover:bg-amber-50 rounded" title="Edit"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                            <button onclick="deleteSiswa('${s.id}')" class="p-1.5 text-red-600 hover:bg-red-50 rounded" title="Hapus"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            <button onclick="deleteSiswa('${s.id}')" class="p-1.5 text-red-600 hover:bg-red-50 rounded" title="Hapus Cepat"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                         </div>
                     </td>
                 `;
@@ -1655,7 +1635,8 @@
             saveDataToStorage();
             closeModalSiswa();
             renderSiswaTable();
-            showToast('Menyimpan ke Google Sheets...', 'warning');
+            updateDashboardStats();
+            showToast('Menyimpan siswa ke Google Sheets...', 'warning');
 
             const res = await sendToGoogleSheets('saveSiswa', { siswa: state.siswa });
             if (res && res.status === 'success') {
@@ -1669,13 +1650,20 @@
         }
 
         async function deleteSiswa(id) {
-            if(confirm('Hapus siswa ini?')) {
-                state.siswa = state.siswa.filter(x => x.id !== id);
-                saveDataToStorage();
-                renderSiswaTable();
-                showToast('Siswa dihapus, memperbarui Sheets...', 'warning');
-                await sendToGoogleSheets('saveSiswa', { siswa: state.siswa });
-            }
+            const targetSiswa = state.siswa.find(x => x.id === id);
+            const nama = targetSiswa ? targetSiswa.nama : 'Siswa';
+
+            // Langsung hapus seketika tanpa popup konfirmasi
+            state.siswa = state.siswa.filter(x => x.id !== id);
+            saveDataToStorage();
+            renderSiswaTable();
+            updateDashboardStats();
+
+            // Notifikasi toast bahwa data telah terhapus
+            showToast(`Data siswa "${nama}" berhasil dihapus.`, 'success');
+
+            // Sinkronkan pembaruan ke Google Sheets di background
+            sendToGoogleSheets('saveSiswa', { siswa: state.siswa });
         }
 
         function exportSiswaExcel() {
@@ -1728,6 +1716,7 @@
 
                     saveDataToStorage();
                     renderSiswaTable();
+                    updateDashboardStats();
                     showToast(`Import ${importedCount} siswa. Menyimpan ke Google Sheets...`, 'warning');
 
                     const res = await sendToGoogleSheets('saveSiswa', { siswa: state.siswa });
@@ -1864,7 +1853,6 @@
                 btn.disabled = true;
                 txt.innerText = 'Mengupload ke Google Sheets...';
             }
-            showToast('Menyimpan perubahan nilai ke Google Sheets...', 'warning');
 
             try {
                 const res = await sendToGoogleSheets('saveNilai', { nilai: state.nilai, siswa: state.siswa });
@@ -2049,7 +2037,7 @@
 
             saveDataToStorage();
             loadTahfidzTable();
-            showToast(`Data Tahfidz kelas ${kelas} di-generate otomatis. Tekan "Simpan & Sync Google Sheets" untuk merekam ke cloud.`);
+            showToast(`Data Tahfidz kelas ${kelas} di-generate otomatis.`);
         }
 
         function loadPembiasaanTable() {
@@ -2114,7 +2102,7 @@
 
             saveDataToStorage();
             loadPembiasaanTable();
-            showToast(`Data Pembiasaan kelas ${kelas} di-generate. Tekan "Simpan & Sync Google Sheets" untuk merekam ke cloud.`);
+            showToast(`Data Pembiasaan kelas ${kelas} di-generate.`);
         }
 
         function toggleRaporMode() {
