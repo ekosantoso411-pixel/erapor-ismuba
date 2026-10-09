@@ -105,7 +105,6 @@
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen">
 
-    <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none no-print"></div>
 
     <div id="loginSection" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-emerald-900 via-teal-800 to-slate-900">
@@ -482,10 +481,17 @@
                             <h2 class="font-bold text-slate-800 text-lg">Mata Pelajaran & Capaian Pembelajaran (CP)</h2>
                             <p class="text-xs text-slate-500">Kelola mata pelajaran ISMUBA dan deskripsi Capaian Pembelajaran</p>
                         </div>
-                        <button onclick="openModalMapel()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 shadow transition">
-                            <i data-lucide="plus" class="w-4 h-4"></i>
-                            <span>Tambah Mapel & CP</span>
-                        </button>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <!-- New Simpan Data Button Added Here -->
+                            <button onclick="pushMapelToSheets()" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-sm font-medium flex items-center gap-2 shadow transition">
+                                <i data-lucide="cloud-upload" class="w-4 h-4"></i>
+                                <span>Simpan Data</span>
+                            </button>
+                            <button onclick="openModalMapel()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 shadow transition">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Tambah Mapel & CP</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -1111,6 +1117,16 @@
             }
         }
 
+        async function pushMapelToSheets() {
+            showToast('Mengirim data Mapel ke Google Sheets...', 'warning');
+            const res = await sendToGoogleSheets('saveMapel', { mapel: state.mapel });
+            if (res && res.status === 'success') {
+                showToast('Data Mapel berhasil disimpan di tab Mapel Google Sheet!', 'success');
+            } else {
+                showToast('Tersimpan di browser lokal.', 'warning');
+            }
+        }
+
         async function saveAllTahfidz() {
             const btn = document.getElementById('btnSaveTahfidzMain');
             const txt = document.getElementById('txtSaveTahfidz');
@@ -1507,7 +1523,7 @@
             document.getElementById('modalMapel').classList.add('hidden');
         }
 
-        function saveMapel(e) {
+        async function saveMapel(e) {
             e.preventDefault();
             const id = document.getElementById('mapelEditId').value;
             const kode = document.getElementById('mapelKode').value;
@@ -1532,7 +1548,12 @@
             closeModalMapel();
             renderMapelTable();
             updateDashboardStats();
-            showToast('Data Mata Pelajaran berhasil diperbarui.');
+            
+            showToast('Menyimpan Mapel ke Google Sheets...', 'warning');
+            const res = await sendToGoogleSheets('saveMapel', { mapel: state.mapel });
+            if (res && res.status === 'success') {
+                showToast('Data Mata Pelajaran berhasil diperbarui & tersimpan ke Cloud!', 'success');
+            }
         }
 
         function editMapel(id) {
@@ -1540,12 +1561,14 @@
             if(m) openModalMapel(m);
         }
 
-        function deleteMapel(id) {
+        async function deleteMapel(id) {
             state.mapel = state.mapel.filter(x => x.id !== id);
             saveDataToStorage();
             renderMapelTable();
             updateDashboardStats();
-            showToast('Mata Pelajaran berhasil dihapus.');
+            showToast('Mata Pelajaran berhasil dihapus.', 'success');
+
+            sendToGoogleSheets('saveMapel', { mapel: state.mapel });
         }
 
         function renderSiswaTable() {
@@ -2142,15 +2165,14 @@
 
             // Section A: Mapel Marks
             let mapelRowsHTML = '';
-            state.mapel.forEach((m, idx) => {
+            const jenjang = siswa.kelas.substring(0, 1);
+            const mapelSiswa = state.mapel.filter(m => m.kelas === 'Semua' || m.kelas === jenjang || m.kelas === siswa.kelas);
+            
+            mapelSiswa.forEach((m, idx) => {
                 const key = `${siswa.id}_${m.id}_${state.tahunSemester}`;
                 let rawScore = state.nilai[key];
                 
-                if (rawScore === undefined || rawScore === '') {
-                    rawScore = idx % 2 === 0 ? 92 : 88;
-                }
-
-                const score = rawScore;
+                let score = rawScore !== undefined ? rawScore : '';
                 const calc = calculatePredikatAndDeskripsi(score, m.kktp, m.cp);
 
                 mapelRowsHTML += `
@@ -2158,7 +2180,7 @@
                         <td class="p-2 text-center border-r border-slate-300 font-medium">${idx + 1}</td>
                         <td class="p-2 border-r border-slate-300 font-bold text-slate-900">${m.nama}</td>
                         <td class="p-2 text-center border-r border-slate-300 font-semibold text-slate-700">${m.kktp}</td>
-                        <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${score}</td>
+                        <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${score !== '' ? score : '-'}</td>
                         <td class="p-2 text-center border-r border-slate-300 font-bold text-slate-900">${calc.predikat}</td>
                         <td class="p-2 leading-tight text-slate-800 text-[9.5pt]">${calc.deskripsi}</td>
                     </tr>
@@ -2168,16 +2190,16 @@
             // Bagian B: Tahfidz Al-Qur'an
             const tahfidzKey = `${siswa.id}_${state.tahunSemester}`;
             const tData = state.tahfidz[tahfidzKey] || {
-                surah: defaultSurahTarget[siswa.kelas] || 'Juz 30 (Surah An-Naba s.d. An-Naas)',
-                score: 93,
-                predikat: 'A',
-                catatan: 'Hafalan fasih, makhrajul huruf dan tajwid sangat baik sesuai kaidah tartil.'
+                surah: defaultSurahTarget[siswa.kelas] || '-',
+                score: '-',
+                predikat: '-',
+                catatan: 'Belum ada penilaian'
             };
 
             // Bagian C: Pembiasaan Karakter
             const pData = state.pembiasaan[tahfidzKey] || {
-                predikat: 'Sangat Baik',
-                deskripsi: 'Istiqamah menjalankan shalat berjamaah, berakhlak mulia kepada bapak/ibu guru dan teman, serta aktif dalam kegiatan keislaman.'
+                predikat: '-',
+                deskripsi: 'Belum ada penilaian'
             };
 
             return `
