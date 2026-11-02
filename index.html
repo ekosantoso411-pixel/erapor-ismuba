@@ -181,7 +181,7 @@
             </form>
 
             <div class="mt-6 text-center text-xs text-slate-400 border-t pt-4">
-                &copy; SMP Muhammadiyah 2 Depok Smart School
+                &copy; Dikembangkan oleh Eko Santoso - SMP Muhammadiyah 2 Depok
             </div>
         </div>
     </div>
@@ -404,9 +404,9 @@
                                 Petunjuk Integrasi Cloud
                             </h3>
                             <ol class="text-xs text-slate-600 space-y-2.5 list-decimal pl-4 leading-relaxed">
-                                <li><strong>Tahfidz & Pembiasaan Otomatis:</strong> Di tab <em>Data Tahfidz</em> dan <em>Pembiasaan Karakter</em> tersedia tombol <strong>"Simpan & Sync Google Sheets"</strong> untuk merekam data ke sheet masing-masing.</li>
+                                <li><strong>Format Key Baru:</strong> Data di Google Sheets akan otomatis memiliki Key yang mudah dibaca (misal: <code>7A-01_AI-01_2026...</code>).</li>
+                                <li><strong>Tahfidz & Pembiasaan Otomatis:</strong> Di tab <em>Data Tahfidz</em> dan <em>Pembiasaan Karakter</em> tersedia tombol <strong>"Simpan & Sync Google Sheets"</strong>.</li>
                                 <li><strong>Otomatis Simpan Nilai:</strong> Setiap kali tombol Simpan di tab Nilai ditekan, data terekam di tab <code>Nilai</code> spreadsheet.</li>
-                                <li><strong>Hapus Cepat Siswa:</strong> Cukup klik icon hapus pada tabel siswa, data langsung dihapus seketika tanpa dialog konfirmasi.</li>
                             </ol>
                         </div>
                     </div>
@@ -482,7 +482,6 @@
                             <p class="text-xs text-slate-500">Kelola mata pelajaran ISMUBA dan deskripsi Capaian Pembelajaran</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
-                            <!-- New Simpan Data Button Added Here -->
                             <button onclick="pushMapelToSheets()" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-sm font-medium flex items-center gap-2 shadow transition">
                                 <i data-lucide="cloud-upload" class="w-4 h-4"></i>
                                 <span>Simpan Data</span>
@@ -568,6 +567,7 @@
                                 <thead class="bg-slate-100 text-xs font-semibold text-slate-600 uppercase border-b">
                                     <tr>
                                         <th class="p-3 w-12 text-center">No</th>
+                                        <th class="p-3">ID Siswa</th>
                                         <th class="p-3">NIS / NISN</th>
                                         <th class="p-3">Nama Siswa</th>
                                         <th class="p-3">Kelas</th>
@@ -936,19 +936,19 @@
         ];
 
         const defaultSiswa = [
-            { id: 's1', nis: '20260701', nama: 'Ahmad Dahlan Putra', kelas: '7A' },
-            { id: 's2', nis: '20260702', nama: 'Siti Walidah Putri', kelas: '7A' },
-            { id: 's3', nis: '20260703', nama: 'Muhammad Faqih', kelas: '7B' },
-            { id: 's4', nis: '20260704', nama: 'Aisyah Humaira', kelas: '7C' },
-            { id: 's5', nis: '20260705', nama: 'Bilal Ramadan', kelas: '7D' },
-            { id: 's6', nis: '20260801', nama: 'Ibrahim Azzam', kelas: '8A' },
-            { id: 's7', nis: '20260802', nama: 'Fatimah Az-Zahra', kelas: '8B' },
-            { id: 's8', nis: '20260803', nama: 'Hasan Al-Banna', kelas: '8C' },
-            { id: 's9', nis: '20260804', nama: 'Husain Abdillah', kelas: '8D' },
-            { id: 's10', nis: '20260901', nama: 'Umar Al-Faruq', kelas: '9A' },
-            { id: 's11', nis: '20260902', nama: 'Khadijah Kubra', kelas: '9B' },
-            { id: 's12', nis: '20260903', nama: 'Ali Bin Abi Thalib', kelas: '9C' },
-            { id: 's13', nis: '20260904', nama: 'Usman Bin Affan', kelas: '9D' }
+            { id: '7A-01', nis: '20260701', nama: 'Ahmad Dahlan Putra', kelas: '7A' },
+            { id: '7A-02', nis: '20260702', nama: 'Siti Walidah Putri', kelas: '7A' },
+            { id: '7B-01', nis: '20260703', nama: 'Muhammad Faqih', kelas: '7B' },
+            { id: '7C-01', nis: '20260704', nama: 'Aisyah Humaira', kelas: '7C' },
+            { id: '7D-01', nis: '20260705', nama: 'Bilal Ramadan', kelas: '7D' },
+            { id: '8A-01', nis: '20260801', nama: 'Ibrahim Azzam', kelas: '8A' },
+            { id: '8B-01', nis: '20260802', nama: 'Fatimah Az-Zahra', kelas: '8B' },
+            { id: '8C-01', nis: '20260803', nama: 'Hasan Al-Banna', kelas: '8C' },
+            { id: '8D-01', nis: '20260804', nama: 'Husain Abdillah', kelas: '8D' },
+            { id: '9A-01', nis: '20260901', nama: 'Umar Al-Faruq', kelas: '9A' },
+            { id: '9B-01', nis: '20260902', nama: 'Khadijah Kubra', kelas: '9B' },
+            { id: '9C-01', nis: '20260903', nama: 'Ali Bin Abi Thalib', kelas: '9C' },
+            { id: '9D-01', nis: '20260904', nama: 'Usman Bin Affan', kelas: '9D' }
         ];
 
         const defaultPengaturan = {
@@ -962,17 +962,18 @@
             nipKepsek: '1060557'
         };
 
+        // Kunci di awal sudah diupdate formatnya agar rapi: [ID Siswa]_[Kode Mapel]_[Semester]
         const initialDemoNilai = {
-            's1_m1_2026/2027 - Semester Ganjil': 92,
-            's1_m2_2026/2027 - Semester Ganjil': 88,
-            's1_m3_2026/2027 - Semester Ganjil': 95,
-            's1_m4_2026/2027 - Semester Ganjil': 85,
-            's1_m5_2026/2027 - Semester Ganjil': 90,
-            's2_m1_2026/2027 - Semester Ganjil': 85,
-            's2_m2_2026/2027 - Semester Ganjil': 90,
-            's2_m3_2026/2027 - Semester Ganjil': 86,
-            's2_m4_2026/2027 - Semester Ganjil': 89,
-            's2_m5_2026/2027 - Semester Ganjil': 84
+            '7A-01_AI-01_2026/2027 - Semester Ganjil': 92,
+            '7A-01_AI-02_2026/2027 - Semester Ganjil': 88,
+            '7A-01_AI-03_2026/2027 - Semester Ganjil': 95,
+            '7A-01_KMH-01_2026/2027 - Semester Ganjil': 85,
+            '7A-01_BAR-01_2026/2027 - Semester Ganjil': 90,
+            '7A-02_AI-01_2026/2027 - Semester Ganjil': 85,
+            '7A-02_AI-02_2026/2027 - Semester Ganjil': 90,
+            '7A-02_AI-03_2026/2027 - Semester Ganjil': 86,
+            '7A-02_KMH-01_2026/2027 - Semester Ganjil': 89,
+            '7A-02_BAR-01_2026/2027 - Semester Ganjil': 84
         };
 
         let state = {
@@ -986,6 +987,98 @@
             tahfidz: JSON.parse(localStorage.getItem('ismuba_tahfidz')) || {},
             pembiasaan: JSON.parse(localStorage.getItem('ismuba_pembiasaan')) || {}
         };
+
+        // --- FUNGSI MIGRASI KEY LAMA (AGAR DATA SEBELUMNYA TIDAK HILANG SAAT UPDATE FORMAT) ---
+        function migrateOldKeysToReadableKeys() {
+            let migrated = false;
+
+            // 1. Migrasi Data Nilai (Merubah dari m1/m2 ke Kode Mapel AI-01 dsb)
+            const newNilai = {};
+            Object.keys(state.nilai).forEach(oldKey => {
+                const parts = oldKey.split('_');
+                // Jika ID Mapel nya masih pakai huruf 'm' (misal: m1, m2)
+                if (parts.length >= 3 && parts[1].startsWith('m') && parts[1].length < 4) {
+                    const siswaId = parts[0];
+                    const mapelId = parts[1];
+                    const ts = parts.slice(2).join('_');
+                    
+                    const mapelObj = state.mapel.find(m => m.id === mapelId);
+                    if (mapelObj) {
+                        const newKey = `${siswaId}_${mapelObj.kode}_${ts}`;
+                        newNilai[newKey] = state.nilai[oldKey];
+                        migrated = true;
+                    } else {
+                        newNilai[oldKey] = state.nilai[oldKey]; 
+                    }
+                } else {
+                    newNilai[oldKey] = state.nilai[oldKey];
+                }
+            });
+            if (migrated) state.nilai = newNilai;
+
+            // 2. Migrasi Data Tahfidz (Menyisipkan kata TAHFIDZ di key)
+            const newTahfidz = {};
+            Object.keys(state.tahfidz).forEach(oldKey => {
+                if (!oldKey.includes('_TAHFIDZ_')) {
+                    const parts = oldKey.split('_');
+                    if(parts.length >= 2) {
+                        const newKey = `${parts[0]}_TAHFIDZ_${parts.slice(1).join('_')}`;
+                        newTahfidz[newKey] = state.tahfidz[oldKey];
+                        migrated = true;
+                    } else {
+                        newTahfidz[oldKey] = state.tahfidz[oldKey];
+                    }
+                } else {
+                    newTahfidz[oldKey] = state.tahfidz[oldKey];
+                }
+            });
+            if (migrated) state.tahfidz = newTahfidz;
+
+            // 3. Migrasi Data Pembiasaan (Menyisipkan kata PEMBIASAAN di key)
+            const newPembiasaan = {};
+            Object.keys(state.pembiasaan).forEach(oldKey => {
+                if (!oldKey.includes('_PEMBIASAAN_')) {
+                    const parts = oldKey.split('_');
+                    if(parts.length >= 2) {
+                        const newKey = `${parts[0]}_PEMBIASAAN_${parts.slice(1).join('_')}`;
+                        newPembiasaan[newKey] = state.pembiasaan[oldKey];
+                        migrated = true;
+                    } else {
+                        newPembiasaan[oldKey] = state.pembiasaan[oldKey];
+                    }
+                } else {
+                    newPembiasaan[oldKey] = state.pembiasaan[oldKey];
+                }
+            });
+            if (migrated) state.pembiasaan = newPembiasaan;
+
+            if (migrated) {
+                saveDataToStorage();
+                console.log("Migrasi key ke format baru (readable) berhasil dilakukan.");
+            }
+        }
+        // Jalankan migrasi begitu state didefinisikan
+        migrateOldKeysToReadableKeys();
+        // ----------------------------------------------------------------------------------
+
+        function generateIdSiswaBermakna(kelasTarget, dataSiswa) {
+            const siswaDiKelas = dataSiswa.filter(s => s.kelas === kelasTarget);
+            let maxUrut = 0;
+
+            siswaDiKelas.forEach(s => {
+                const parts = String(s.id).split('-');
+                if (parts.length === 2 && parts[0] === kelasTarget) {
+                    const urutSaatIni = parseInt(parts[1], 10);
+                    if (!isNaN(urutSaatIni) && urutSaatIni > maxUrut) {
+                        maxUrut = urutSaatIni;
+                    }
+                }
+            });
+
+            const nomorBaru = maxUrut + 1;
+            const formatNomor = String(nomorBaru).padStart(2, '0');
+            return `${kelasTarget}-${formatNomor}`;
+        }
 
         function saveDataToStorage() {
             localStorage.setItem('ismuba_pengaturan', JSON.stringify(state.pengaturan));
@@ -1579,7 +1672,7 @@
             const filtered = filter === 'Semua' ? state.siswa : state.siswa.filter(s => s.kelas === filter);
 
             if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada data siswa</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Tidak ada data siswa</td></tr>`;
                 return;
             }
 
@@ -1588,6 +1681,7 @@
                 tr.className = 'hover:bg-slate-50 transition-colors duration-150';
                 tr.innerHTML = `
                     <td class="p-3 text-center text-slate-500">${idx + 1}</td>
+                    <td class="p-3 text-slate-600 font-mono text-xs">${s.id}</td>
                     <td class="p-3 font-semibold text-slate-700">${s.nis}</td>
                     <td class="p-3 font-bold text-slate-900">${s.nama}</td>
                     <td class="p-3"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 font-bold rounded text-xs">${s.kelas}</span></td>
@@ -1635,8 +1729,10 @@
                     state.siswa[index] = { id, nis, nama, kelas };
                 }
             } else {
+                // MODIFIKASI: Gunakan format ID baru
+                const idSiswaBaru = generateIdSiswaBermakna(kelas, state.siswa);
                 state.siswa.push({
-                    id: 's_' + Date.now(),
+                    id: idSiswaBaru,
                     nis, nama, kelas
                 });
             }
@@ -1679,6 +1775,7 @@
             const filterKelas = document.getElementById('filterSiswaKelas').value;
             const dataToExport = (filterKelas === 'Semua' ? state.siswa : state.siswa.filter(s => s.kelas === filterKelas)).map((s, idx) => ({
                 'No': idx + 1,
+                'ID': s.id,
                 'NIS/NISN': s.nis,
                 'Nama Siswa': s.nama,
                 'Kelas': s.kelas
@@ -1712,8 +1809,10 @@
                         if(nis && nama) {
                             const existing = state.siswa.find(s => s.nis == nis);
                             if(!existing) {
+                                // MODIFIKASI: Gunakan format ID baru saat import excel
+                                const idImportBaru = generateIdSiswaBermakna(String(kelas), state.siswa);
                                 state.siswa.push({
-                                    id: 's_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                                    id: idImportBaru,
                                     nis: String(nis),
                                     nama: String(nama),
                                     kelas: String(kelas)
@@ -1793,7 +1892,8 @@
             }
 
             siswaInKelas.forEach((s, idx) => {
-                const key = `${s.id}_${mapelId}_${state.tahunSemester}`;
+                // FORMAT KEY NILAI BARU (Lebih mudah dibaca oleh manusia)
+                const key = `${s.id}_${selectedMapelObj.kode}_${state.tahunSemester}`;
                 const savedVal = state.nilai[key] !== undefined ? state.nilai[key] : '';
                 const calc = calculatePredikatAndDeskripsi(savedVal, selectedMapelObj.kktp, selectedMapelObj.cp);
 
@@ -1804,7 +1904,7 @@
                     <td class="p-3 font-semibold text-slate-800">${s.nama}</td>
                     <td class="p-3 text-center">
                         <input type="number" min="0" max="100" value="${savedVal}" 
-                            data-siswakid="${s.id}" data-mapelid="${mapelId}"
+                            data-siswakid="${s.id}" data-mapelkode="${selectedMapelObj.kode}"
                             oninput="updateSingleRowNilai(this, ${selectedMapelObj.kktp}, \`${selectedMapelObj.cp.replace(/'/g, "\\'")}\`)"
                             class="nilai-input w-20 p-1.5 border border-slate-300 rounded text-center font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
                     </td>
@@ -1845,9 +1945,10 @@
             const inputs = document.querySelectorAll('.nilai-input');
             inputs.forEach(inp => {
                 const siswaId = inp.dataset.siswakid;
-                const mapelId = inp.dataset.mapelid;
+                const mapelKode = inp.dataset.mapelkode;
                 const val = inp.value;
-                const key = `${siswaId}_${mapelId}_${state.tahunSemester}`;
+                // GENERATE KEY BARU SEBELUM SAVE
+                const key = `${siswaId}_${mapelKode}_${state.tahunSemester}`;
                 if (val !== '') {
                     state.nilai[key] = parseFloat(val);
                 } else {
@@ -1890,7 +1991,7 @@
 
             const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
             const exportData = siswaInKelas.map((s, idx) => {
-                const key = `${s.id}_${mapelId}_${state.tahunSemester}`;
+                const key = `${s.id}_${mapelObj.kode}_${state.tahunSemester}`;
                 const score = state.nilai[key] !== undefined ? state.nilai[key] : '';
                 const calc = calculatePredikatAndDeskripsi(score, mapelObj?.kktp || 75, mapelObj?.cp || '');
 
@@ -1918,6 +2019,7 @@
             if(!file) return;
 
             const mapelId = document.getElementById('nilaiSelectMapel').value;
+            const mapelObj = state.mapel.find(m => m.id === mapelId);
             const reader = new FileReader();
 
             reader.onload = async function(e) {
@@ -1933,8 +2035,9 @@
 
                         if(nis !== undefined && score !== undefined) {
                             const student = state.siswa.find(s => s.nis == nis);
-                            if(student) {
-                                const key = `${student.id}_${mapelId}_${state.tahunSemester}`;
+                            if(student && mapelObj) {
+                                // GUNAKAN FORMAT KEY BARU SAAT IMPORT
+                                const key = `${student.id}_${mapelObj.kode}_${state.tahunSemester}`;
                                 state.nilai[key] = parseFloat(score);
                                 updated++;
                             }
@@ -1983,12 +2086,13 @@
             }
 
             siswaInKelas.forEach((s, idx) => {
-                const key = `${s.id}_${state.tahunSemester}`;
+                // PENAMBAHAN IDENTIFIER TAHFIDZ PADA KEY
+                const key = `${s.id}_TAHFIDZ_${state.tahunSemester}`;
                 let tData = state.tahfidz[key] || {
                     surah: defaultSurahTarget[kelas] || 'Juz 30',
                     score: 90,
                     predikat: 'A',
-                    catatan: 'Hafalan lancar, makhrajul huruf dan tajwid sangat baik.'
+                    catatan: 'Ananda memiliki hafalan yang sangat kuat (mutqin), kelancaran yang luar biasa, serta mampu menerapkan kaidah tajwid (makhraj dan shifatul huruf) dengan sangat tepat. Irama dan tartilnya juga sangat baik.'
                 };
 
                 const tr = document.createElement('tr');
@@ -2014,16 +2118,32 @@
         }
 
         function updateTahfidz(siswaId, field, value) {
-            const key = `${siswaId}_${state.tahunSemester}`;
+            const key = `${siswaId}_TAHFIDZ_${state.tahunSemester}`;
             if(!state.tahfidz[key]) {
-                state.tahfidz[key] = { surah: 'Juz 30', score: 85, predikat: 'B', catatan: 'Lancar' };
+                state.tahfidz[key] = { surah: 'Juz 30', score: 85, predikat: 'B', catatan: 'Ananda memiliki hafalan yang lancar dan bagus. Secara umum, tajwid dan makhraj huruf sudah diterapkan dengan baik, hanya terdapat sedikit kekeliruan kecil yang bisa langsung diperbaiki saat diingatkan.' };
             }
 
             state.tahfidz[key][field] = value;
 
             if(field === 'score') {
                 const num = parseFloat(value) || 0;
-                state.tahfidz[key].predikat = num >= 90 ? 'A' : (num >= 75 ? 'B' : (num >= 61 ? 'C' : 'D'));
+                let predikat = 'D';
+                let catatan = 'Ananda belum mampu menguasai target hafalan dengan baik, masih perlu bimbingan, makhrajul huruf dan penerapan tajwid masih perlu diperbaiki melalui latihan rutin dan bimbingan intensif.';
+                
+                if (num >= 90) {
+                    predikat = 'A';
+                    catatan = 'Ananda memiliki hafalan yang sangat kuat (mutqin), kelancaran yang luar biasa, serta mampu menerapkan kaidah tajwid (makhraj dan shifatul huruf) dengan sangat tepat. Irama dan tartilnya juga sangat baik.';
+                } else if (num >= 75) {
+                    predikat = 'B';
+                    catatan = 'Ananda memiliki hafalan yang lancar dan bagus. Secara umum, tajwid dan makhraj huruf sudah diterapkan dengan baik, hanya terdapat sedikit kekeliruan kecil yang bisa langsung diperbaiki saat diingatkan.';
+                } else if (num >= 61) {
+                    predikat = 'C';
+                    catatan = 'Ananda telah menyelsaikan beberapa target hafalan, tetapi masih terdapat beberapa kesalahan dalam kelancaran, makhrajul huruf, dan penerapan tajwid sehingga perlu latihan';
+                }
+
+                state.tahfidz[key].predikat = predikat;
+                state.tahfidz[key].catatan = catatan;
+
                 loadTahfidzTable();
             }
 
@@ -2035,12 +2155,12 @@
             const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
 
             siswaInKelas.forEach(s => {
-                const key = `${s.id}_${state.tahunSemester}`;
+                const key = `${s.id}_TAHFIDZ_${state.tahunSemester}`;
                 state.tahfidz[key] = {
                     surah: defaultSurahTarget[kelas] || 'Juz 30',
                     score: 92,
                     predikat: 'A',
-                    catatan: 'Fasih, lancar, serta makhraj dan tajwid sesuai kaidah Tartil.'
+                    catatan: 'Ananda memiliki hafalan yang sangat kuat (mutqin), kelancaran yang luar biasa, serta mampu menerapkan kaidah tajwid (makhraj dan shifatul huruf) dengan sangat tepat. Irama dan tartilnya juga sangat baik.'
                 };
             });
 
@@ -2061,10 +2181,11 @@
             }
 
             siswaInKelas.forEach((s, idx) => {
-                const key = `${s.id}_${state.tahunSemester}`;
+                // PENAMBAHAN IDENTIFIER PEMBIASAAN PADA KEY
+                const key = `${s.id}_PEMBIASAAN_${state.tahunSemester}`;
                 let pData = state.pembiasaan[key] || {
                     predikat: 'Sangat Baik',
-                    deskripsi: 'Shalat berjamaah tepat waktu, santun kepada guru dan kawan, serta aktif dalam kegiatan keagamaan.'
+                    deskripsi: 'Ananda shalat berjamaah tepat waktu dan tertib, santun kepada guru dan kawan, serta aktif dalam kegiatan keagamaan.'
                 };
 
                 const tr = document.createElement('tr');
@@ -2077,7 +2198,7 @@
                             <option value="Sangat Baik" ${pData.predikat==='Sangat Baik'?'selected':''}>Sangat Baik</option>
                             <option value="Baik" ${pData.predikat==='Baik'?'selected':''}>Baik</option>
                             <option value="Cukup" ${pData.predikat==='Cukup'?'selected':''}>Cukup</option>
-                            <option value="Perlu Pembinaan" ${pData.predikat==='Perlu Pembinaan'?'selected':''}>Perlu Pembinaan</option>
+                            <option value="Perlu Bimbingan" ${pData.predikat==='Perlu Bimbingan'?'selected':''}>Perlu Bimbingan</option>
                         </select>
                     </td>
                     <td class="p-3">
@@ -2089,11 +2210,39 @@
         }
 
         function updatePembiasaan(siswaId, field, value) {
-            const key = `${siswaId}_${state.tahunSemester}`;
+            const key = `${siswaId}_PEMBIASAAN_${state.tahunSemester}`;
+            
+            // Jika object belum ada, set default fallback value
             if(!state.pembiasaan[key]) {
-                state.pembiasaan[key] = { predikat: 'Baik', deskripsi: 'Disiplin dan taat ibadah' };
+                state.pembiasaan[key] = { 
+                    predikat: 'Baik', 
+                    deskripsi: 'Ananda melaksanakan shalat berjamaah dengan tertib, bersikap santun kepada guru dan kawan, serta mengikuti kegiatan keagamaan dengan baik.' 
+                };
             }
+            
             state.pembiasaan[key][field] = value;
+
+            // Auto-generate Deskripsi jika Predikat diubah
+            if (field === 'predikat') {
+                let autoDeskripsi = '';
+                if (value === 'Sangat Baik') {
+                    autoDeskripsi = "Ananda shalat berjamaah tepat waktu dan tertib, santun kepada guru dan kawan, serta aktif dalam kegiatan keagamaan.";
+                } else if (value === 'Baik') {
+                    autoDeskripsi = "Ananda melaksanakan shalat berjamaah dengan tertib, bersikap santun kepada guru dan kawan, serta mengikuti kegiatan keagamaan dengan baik.";
+                } else if (value === 'Cukup') {
+                    autoDeskripsi = "Ananda mulai membiasakan diri melaksanakan shalat berjamaah, bersikap santun kepada guru dan kawan, serta mengikuti kegiatan keagamaan dengan arahan.";
+                } else if (value === 'Perlu Bimbingan') {
+                    autoDeskripsi = "Ananda perlu bimbingan dan pendampingan dalam membiasakan shalat berjamaah tepat waktu, bersikap santun kepada guru dan kawan, serta berpartisipasi aktif dalam kegiatan keagamaan.";
+                }
+                
+                if (autoDeskripsi) {
+                    state.pembiasaan[key]['deskripsi'] = autoDeskripsi;
+                }
+                
+                // Re-render the table row so the new description reflects in the input immediately
+                loadPembiasaanTable();
+            }
+
             saveDataToStorage();
         }
 
@@ -2102,10 +2251,10 @@
             const siswaInKelas = state.siswa.filter(s => s.kelas === kelas);
 
             siswaInKelas.forEach(s => {
-                const key = `${s.id}_${state.tahunSemester}`;
+                const key = `${s.id}_PEMBIASAAN_${state.tahunSemester}`;
                 state.pembiasaan[key] = {
                     predikat: 'Sangat Baik',
-                    deskripsi: 'Selalu rajin shalat dhuha dan berjamaah, bersikap sopan santun, serta aktif dalam kegiatan keislaman.'
+                    deskripsi: 'Ananda shalat berjamaah tepat waktu dan tertib, santun kepada guru dan kawan, serta aktif dalam kegiatan keagamaan.'
                 };
             });
 
@@ -2169,7 +2318,8 @@
             const mapelSiswa = state.mapel.filter(m => m.kelas === 'Semua' || m.kelas === jenjang || m.kelas === siswa.kelas);
             
             mapelSiswa.forEach((m, idx) => {
-                const key = `${siswa.id}_${m.id}_${state.tahunSemester}`;
+                // Membaca Nilai dari Kunci yang Baru (memakai Kode Mapel)
+                const key = `${siswa.id}_${m.kode}_${state.tahunSemester}`;
                 let rawScore = state.nilai[key];
                 
                 let score = rawScore !== undefined ? rawScore : '';
@@ -2187,8 +2337,8 @@
                 `;
             });
 
-            // Bagian B: Tahfidz Al-Qur'an
-            const tahfidzKey = `${siswa.id}_${state.tahunSemester}`;
+            // Bagian B: Tahfidz Al-Qur'an (Membaca Kunci yang Baru)
+            const tahfidzKey = `${siswa.id}_TAHFIDZ_${state.tahunSemester}`;
             const tData = state.tahfidz[tahfidzKey] || {
                 surah: defaultSurahTarget[siswa.kelas] || '-',
                 score: '-',
@@ -2196,8 +2346,9 @@
                 catatan: 'Belum ada penilaian'
             };
 
-            // Bagian C: Pembiasaan Karakter
-            const pData = state.pembiasaan[tahfidzKey] || {
+            // Bagian C: Pembiasaan Karakter (Membaca Kunci yang Baru)
+            const pembiasaanKey = `${siswa.id}_PEMBIASAAN_${state.tahunSemester}`;
+            const pData = state.pembiasaan[pembiasaanKey] || {
                 predikat: '-',
                 deskripsi: 'Belum ada penilaian'
             };
@@ -2207,13 +2358,13 @@
                     <div>
                         <!-- KOP RAPOR ISMUBA RESMI -->
                         <div class="border-b-4 border-double border-slate-900 pb-3 mb-4 text-center">
-                            <div class="flex items-center justify-center gap-4 mb-1">
-                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgx_0RkNHbB0s6bXMzSMwreEnoew2ZvUIavhDV3pcgozC6cesZOgnTRv0qP8XqpLZiEpkSTVTa2-22oXCAqc9DBgujPzv0MYIV8bvrbZOB8iPPCdKtzdu1Orbs0AmB_5EICUypKqZVjcc8tHSlAzjVPQ_HcrWmahUixzis_L7B5dr5UXRX1IoQk6BJy-Rhp/s1600/logo%20dikdas%20hijau.png" alt="Logo Dikdasmen" class="w-20 h-20 object-contain flex-shrink-0">
-                                <div class="text-center">
+                            <div class="relative flex items-center justify-center mb-1 min-h-[5.5rem]">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgx_0RkNHbB0s6bXMzSMwreEnoew2ZvUIavhDV3pcgozC6cesZOgnTRv0qP8XqpLZiEpkSTVTa2-22oXCAqc9DBgujPzv0MYIV8bvrbZOB8iPPCdKtzdu1Orbs0AmB_5EICUypKqZVjcc8tHSlAzjVPQ_HcrWmahUixzis_L7B5dr5UXRX1IoQk6BJy-Rhp/s1600/logo%20dikdas%20hijau.png" alt="Logo Dikdasmen" class="absolute left-2 w-20 h-20 object-contain flex-shrink-0">
+                                <div class="text-center w-full px-24">
                                     <h2 class="font-bold text-slate-900 text-base uppercase tracking-wide leading-tight">MAJELIS PENDIDIKAN DASAR MENENGAH DAN PNF</h2>
                                     <h2 class="font-bold text-slate-900 text-base uppercase tracking-wide leading-tight">PIMPINAN DAERAH MUHAMMADIYAH KABUPATEN SLEMAN</h2>
                                     <h3 class="font-extrabold text-slate-1000 text-lg uppercase leading-tight">${cfg.namaSekolah || 'SMP MUHAMMADIYAH 2 DEPOK'}</h3>
-                                    <p class="text-[8.5pt] text-slate-700 font-medium">${cfg.alamatSekolah || 'Jl. Swadaya IV, Karangasem, Condongcatur, Depok, Sleman | Email: smpmuh2depok@gmail.com'}</p>
+                                    <p class="text-[8pt] text-slate-700 font-medium whitespace-nowrap tracking-tight mt-0.5">${cfg.alamatSekolah || 'Jl. Swadaya IV, Karangasem, Condongcatur, Depok, Sleman | Telp: (0274) 4462295 | Web: smpmuh2depok.sch.id'}</p>
                                 </div>
                             </div>
                         </div>
